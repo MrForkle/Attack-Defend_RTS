@@ -1,0 +1,84 @@
+[gd_scene load_steps=11 format=3 uid="uid://qu01rit6hmem"]
+
+[ext_resource type="Script" path="res://Units/Rifleman/rifleman.gd" id="1_q4yrl"]
+[ext_resource type="Script" path="res://Units/Rifleman/gun.gd" id="2_tyfq7"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_uf3hw"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_4tyuh"]
+resource_local_to_scene = true
+
+[sub_resource type="TorusMesh" id="TorusMesh_mqtgm"]
+outer_radius = 0.7
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g60t8"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.470588)
+
+[sub_resource type="SphereMesh" id="SphereMesh_3bw04"]
+material = SubResource("StandardMaterial3D_g60t8")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_v2d0x"]
+radius = 30.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pgv3w"]
+radius = 0.0695982
+height = 1.27049
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ts7uc"]
+radius = 0.0695982
+height = 1.27049
+
+[node name="Rifleman" type="RigidBody3D"]
+collision_layer = 3
+collision_mask = 3
+lock_rotation = true
+script = ExtResource("1_q4yrl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_uf3hw")
+
+[node name="Solid Version" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_4tyuh")
+
+[node name="Selection Ring" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 0.1, 0, -8.74228e-08, 0, -1, 0, -0.49, 0)
+visible = false
+mesh = SubResource("TorusMesh_mqtgm")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+target_desired_distance = 0.5
+avoidance_enabled = true
+radius = 1.0
+neighbor_distance = 5.0
+debug_enabled = true
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+
+[node name="Phantom Version" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_3bw04")
+
+[node name="Detection Range" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Detection Range"]
+shape = SubResource("SphereShape3D_v2d0x")
+
+[node name="Gun" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.625983, 0, 0)
+script = ExtResource("2_tyfq7")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Gun"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_pgv3w")
+
+[node name="Bullet Spawn Point" type="Node3D" parent="Gun/CollisionShape3D2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.725451, 3.17105e-08)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Gun/CollisionShape3D2"]
+mesh = SubResource("CapsuleMesh_ts7uc")
+skeleton = NodePath("../..")
+
+[connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_target_reached"]
