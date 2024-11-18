@@ -2,7 +2,7 @@ extends StaticBody3D
 
 var bullet := preload("res://bullet.tscn")
 
-var shooting := true
+var shooting := false
 var looks_at = null
 var can_shoot_at = []
 var cycle :int = 0
@@ -23,9 +23,12 @@ func _process(_delta):
 		elif instance_from_id(raycast_result['collider_id']) == i:
 			can_shoot_at.append(i)
 	if !can_shoot_at.is_empty() and looks_at != null:
+		shooting = true
 		var look_at_position = can_shoot_at[looks_at].global_position
 		get_parent().look_at(look_at_position)
 		look_at(look_at_position)
+	else:
+		shooting = false
 	can_shoot_at = []
 	
 	if cycle >= 30:

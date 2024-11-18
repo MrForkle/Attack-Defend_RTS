@@ -1,6 +1,6 @@
 extends Label
 
-var money = 100
+var money = 10000
 var interval = 0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

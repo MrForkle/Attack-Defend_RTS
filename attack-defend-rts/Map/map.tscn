@@ -171,7 +171,6 @@ text = "Red"
 script = ExtResource("7_upn5n")
 
 [node name="Blue" type="Button" parent="CanvasLayer/Rifleman"]
-visible = false
 layout_mode = 0
 offset_left = -576.0
 offset_top = -546.0
