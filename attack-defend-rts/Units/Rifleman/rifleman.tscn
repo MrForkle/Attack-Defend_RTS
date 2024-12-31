@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://qu01rit6hmem"]
+[gd_scene load_steps=9 format=3 uid="uid://qu01rit6hmem"]
 
 [ext_resource type="Script" path="res://Units/Rifleman/rifleman.gd" id="1_q4yrl"]
 [ext_resource type="Script" path="res://Units/Rifleman/gun.gd" id="2_tyfq7"]
@@ -10,13 +10,6 @@ resource_local_to_scene = true
 
 [sub_resource type="TorusMesh" id="TorusMesh_mqtgm"]
 outer_radius = 0.7
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g60t8"]
-transparency = 1
-albedo_color = Color(1, 1, 1, 0.470588)
-
-[sub_resource type="SphereMesh" id="SphereMesh_3bw04"]
-material = SubResource("StandardMaterial3D_g60t8")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_v2d0x"]
 radius = 30.0
@@ -54,10 +47,6 @@ neighbor_distance = 5.0
 debug_enabled = true
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-
-[node name="Phantom Version" type="MeshInstance3D" parent="."]
-visible = false
-mesh = SubResource("SphereMesh_3bw04")
 
 [node name="Detection Range" type="Area3D" parent="."]
 collision_layer = 0

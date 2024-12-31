@@ -32,7 +32,6 @@ func update_aiming():
 		elif instance_from_id(raycast_result['collider_id']) == i:
 			can_shoot_at.append(i)
 	if !can_shoot_at.is_empty():
-		print("aiming")
 		looks_at = randi_range(0,len(can_shoot_at)-1)
 		shooting = true
 		var look_at_position = can_shoot_at[looks_at].global_position

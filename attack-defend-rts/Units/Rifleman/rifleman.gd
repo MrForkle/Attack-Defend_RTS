@@ -8,15 +8,16 @@ var moving = false
 var target_position = null
 @onready var nav = $NavigationAgent3D
 
+func select():
+	$"Selection Ring".show()
 
-func _process(delta):
+func deselect():
+	$"Selection Ring".hide()
+
+func set_values(team,color):
+	get_node("Solid Version").mesh.material = color
 	
-	if health <= 0:
-		queue_free()
-	
-	if team == null:
-		pass
-	elif team == "Red":
+	if team == "Red":
 		collision_layer = 1 + 2 + 16384 + 32768
 		collision_mask = 1 + 2 + 16384 + 32768
 		$"Detection Range".collision_layer = 4
@@ -26,26 +27,11 @@ func _process(delta):
 		collision_mask = 1 + 4 + 16384 + 32768
 		$"Detection Range".collision_layer = 2
 		$"Detection Range".collision_mask = 2
+
+func _process(delta):
 	
-	if is_in_group('Placing'):
-		var tmp = get_tree().get_root().get_node("Map/Camera/Player Camera").shoot_ray("Position")
-		if tmp != null:
-			tmp.y += 0.5
-			position = tmp
-		
-		$CollisionShape3D.disabled = true
-		$"Solid Version".visible = false
-		$"Phantom Version".visible = true
-		return
-		
-	else:
-		$"Solid Version".visible = true
-		$"Phantom Version".visible = false
-		$CollisionShape3D.disabled = false
-	if is_in_group("Selected"):
-		$"Selection Ring".visible = true
-	else:
-		$"Selection Ring".visible = false
+	if health <= 0:
+		queue_free()
 	
 	if target_position == null or moving != true: return
 	var direction = Vector3()

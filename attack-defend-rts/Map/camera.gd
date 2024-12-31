@@ -33,9 +33,9 @@ func _input(event):
 	elif event.is_action("d") and event.is_released():
 		positioning.x = 0
 	elif event.is_action("Left Click") and event.is_pressed():
-		var tmp = get_tree().get_nodes_in_group("Placing")
-		for i in tmp:
-			i.remove_from_group("Placing")
-		$'Player Camera'.shoot_ray("Left")
+		var raycat_result = $"Player Camera".shoot_ray()
+		if raycat_result == null:
+			return
+		raycat_result["collider"].select()
 	elif event.is_action("Right Click") and event.is_pressed():
-		$"Player Camera".shoot_ray("Right")
+		$"Player Camera".shoot_ray()
