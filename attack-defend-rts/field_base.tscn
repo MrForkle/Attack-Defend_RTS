@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://fwk6o62mwgj6"]
+[gd_scene load_steps=9 format=3 uid="uid://fwk6o62mwgj6"]
 
 [ext_resource type="Script" path="res://field_base.gd" id="1_0a6an"]
 [ext_resource type="Script" path="res://Map/label.gd" id="2_akcr3"]
@@ -11,6 +11,11 @@ size = Vector3(1, 2, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_d5kvq"]
 size = Vector3(1, 2, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_2n2ec"]
+inner_radius = 1.25
+outer_radius = 1.5
+rings = 4
 
 [node name="Field Base" type="RigidBody3D"]
 collision_layer = 49153
@@ -68,3 +73,7 @@ toggle_mode = true
 text = "Blue"
 script = ExtResource("5_bhbwt")
 metadata/_edit_use_anchors_ = true
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 0.1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
+mesh = SubResource("TorusMesh_2n2ec")

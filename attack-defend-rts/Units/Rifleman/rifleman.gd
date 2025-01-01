@@ -10,9 +10,11 @@ var target_position = null
 
 func select():
 	$"Selection Ring".show()
+	add_to_group("Selected")
 
 func deselect():
 	$"Selection Ring".hide()
+	remove_from_group("Selected")
 
 func set_values(team,color):
 	get_node("Solid Version").mesh.material = color

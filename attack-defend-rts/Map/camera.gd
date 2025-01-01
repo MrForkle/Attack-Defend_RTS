@@ -36,6 +36,11 @@ func _input(event):
 		var raycat_result = $"Player Camera".shoot_ray()
 		if raycat_result == null:
 			return
-		raycat_result["collider"].select()
+		var selected = raycat_result["collider"]
+		if selected.scene_file_path == "res://field_base.tscn":
+			var nodes = get_tree().get_nodes_in_group("Selected")
+			for i in nodes:
+				i.deselect()
+		selected.select()
 	elif event.is_action("Right Click") and event.is_pressed():
-		$"Player Camera".shoot_ray()
+		var raycat_result = $"Player Camera".shoot_ray()
