@@ -6,10 +6,12 @@ var units = {
 
 func select():
 	$CanvasLayer.show()
+	$"Selection Indicator".show()
 	add_to_group("Selected")
 
 func deselect():
 	$CanvasLayer.hide()
+	$"Selection Indicator".hide()
 	remove_from_group("Selected")
 
 func spawn_unit(unit,team):

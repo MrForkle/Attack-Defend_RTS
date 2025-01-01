@@ -74,6 +74,7 @@ text = "Blue"
 script = ExtResource("5_bhbwt")
 metadata/_edit_use_anchors_ = true
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="Selection Indicator" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 0.1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
+visible = false
 mesh = SubResource("TorusMesh_2n2ec")
