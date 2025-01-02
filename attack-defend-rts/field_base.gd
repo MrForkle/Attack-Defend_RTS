@@ -7,7 +7,6 @@ var units = {
 func _process(delta: float) -> void:
 	if is_in_group("Placing"):
 		var raycast_result = camera_path.shoot_ray()
-		print(raycast_result)
 		if raycast_result != null:
 			position = raycast_result["position"]
 
