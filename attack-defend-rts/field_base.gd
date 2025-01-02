@@ -1,8 +1,14 @@
 extends RigidBody3D
 
+@onready var camera_path = get_tree().get_root().get_node("Map").get_node("Camera").get_node("Player Camera")
 var units = {
 	"Rifleman" = preload('res://Units/Rifleman/rifleman.tscn')
 }
+
+func _process(delta: float) -> void:
+	if is_in_group("Placing"):
+		var raycast_result = camera_path.shoot_ray()
+		position = raycast_result["position"]
 
 func select():
 	$CanvasLayer.show()
