@@ -1,5 +1,4 @@
 extends RigidBody3D
-
 @onready var camera_path = get_tree().get_root().get_node("Map").get_node("Camera").get_node("Player Camera")
 var units = {
 	"Rifleman" = preload('res://Units/Rifleman/rifleman.tscn')
@@ -8,7 +7,17 @@ var units = {
 func _process(delta: float) -> void:
 	if is_in_group("Placing"):
 		var raycast_result = camera_path.shoot_ray()
-		position = raycast_result["position"]
+		print(raycast_result)
+		if raycast_result != null:
+			position = raycast_result["position"]
+
+func begin_placing():
+	$CollisionShape3D.disabled = true
+	add_to_group("Placing")
+
+func end_placing():
+	remove_from_group("Placing")
+	$CollisionShape3D.disabled = false
 
 func select():
 	$CanvasLayer.show()

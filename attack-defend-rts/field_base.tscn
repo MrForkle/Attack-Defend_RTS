@@ -19,6 +19,7 @@ rings = 4
 
 [node name="Field Base" type="RigidBody3D"]
 collision_layer = 49153
+gravity_scale = 0.0
 script = ExtResource("1_0a6an")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
