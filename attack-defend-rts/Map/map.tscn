@@ -158,5 +158,5 @@ offset_bottom = 8.0
 text = "Place Field Base"
 script = ExtResource("7_kghwk")
 
-[connection signal="navigation_mesh_changed" from="NavigationRegion3D" to="NavigationRegion3D" method="_on_navigation_mesh_changed"]
+[connection signal="bake_finished" from="NavigationRegion3D" to="NavigationRegion3D" method="_on_bake_finished"]
 [connection signal="pressed" from="CanvasLayer/Button" to="CanvasLayer/Button" method="_on_pressed"]

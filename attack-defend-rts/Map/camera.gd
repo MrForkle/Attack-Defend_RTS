@@ -40,11 +40,23 @@ func _input(event):
 		if raycat_result == null:
 			return
 		var selected = raycat_result["collider"]
-		if selected.scene_file_path == "res://field_base.tscn":
-			nodes = get_tree().get_nodes_in_group("Selected")
+		nodes = get_tree().get_nodes_in_group("Selected")
+		if selected.is_in_group("Building"):
 			for i in nodes:
 				i.deselect()
+		nodes = get_tree().get_nodes_in_group("Selected")
+		if selected.is_in_group("Unit"):
+			for i in nodes:
+				if i.is_in_group("Unit") != true:
+					i.deselect()
+		nodes = get_tree().get_nodes_in_group("Selected")
 		if selected.is_in_group("Selectable"):
 			selected.select()
+		nodes = get_tree().get_nodes_in_group("Selected")
 	elif event.is_action("Right Click") and event.is_pressed():
+		var nodes = get_tree().get_nodes_in_group("Selected")
 		var raycat_result = $"Player Camera".shoot_ray()
+		if raycat_result == null:
+			return
+		for i in nodes:
+			i.set_target_position(raycat_result['position'])

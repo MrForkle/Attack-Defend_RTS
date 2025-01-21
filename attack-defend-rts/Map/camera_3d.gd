@@ -11,6 +11,6 @@ func shoot_ray():
 	ray_query.from = from
 	ray_query.to = to
 	var raycast_result = space.intersect_ray(ray_query)
-	
+	print(raycast_result)
 	if raycast_result.is_empty(): return
 	return raycast_result

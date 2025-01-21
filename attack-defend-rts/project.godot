@@ -27,6 +27,7 @@ Placing="A group for placing objects"
 sync_every_frame="The server will sync these nodes to clients"
 Unit=""
 Selectable=""
+Building=""
 
 [input]
 

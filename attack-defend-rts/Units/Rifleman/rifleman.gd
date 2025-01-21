@@ -8,6 +8,10 @@ var moving = false
 var target_position = null
 @onready var nav = $NavigationAgent3D
 
+func set_target_position(new_target_position):
+	target_position = new_target_position
+	moving = true
+
 func select():
 	$"Selection Ring".show()
 	add_to_group("Selected")
@@ -18,13 +22,12 @@ func deselect():
 
 func set_values(team,color):
 	get_node("Solid Version").mesh.material = color
-	
-	if team == "Red":
+	if team == "red":
 		collision_layer = 1 + 2 + 16384 + 32768
 		collision_mask = 1 + 2 + 16384 + 32768
 		$"Detection Range".collision_layer = 4
 		$"Detection Range".collision_mask = 4
-	elif team == "Blue":
+	elif team == "blue":
 		collision_layer = 1 + 4 + 16384 + 32768
 		collision_mask = 1 + 4 + 16384 + 32768
 		$"Detection Range".collision_layer = 2

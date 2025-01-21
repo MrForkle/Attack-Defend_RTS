@@ -1,10 +1,10 @@
-extends RigidBody3D
+extends StaticBody3D
 @onready var camera_path = get_tree().get_root().get_node("Map").get_node("Camera").get_node("Player Camera")
 var units = {
 	"Rifleman" = preload('res://Units/Rifleman/rifleman.tscn')
 }
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if is_in_group("Placing"):
 		var raycast_result = camera_path.shoot_ray()
 		if raycast_result != null:
@@ -16,6 +16,7 @@ func begin_placing():
 
 func end_placing():
 	remove_from_group("Placing")
+	reparent(get_parent().get_node("NavigationRegion3D"))
 	$CollisionShape3D.disabled = false
 
 func select():
