@@ -1,0 +1,10 @@
+on:
+  push
+jobs:
+  recompile_all_compiles:
+    name: Recompile all Compiles
+    runs-on: ubuntu-24.10
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt install godot
+      - run: godot --headless --export-release "Linux/X11"
