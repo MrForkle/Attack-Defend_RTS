@@ -1,5 +1,5 @@
 on:
-  push:
+  push
 jobs:
   recompile_all_compiles:
     name: Recompile all Compiles
