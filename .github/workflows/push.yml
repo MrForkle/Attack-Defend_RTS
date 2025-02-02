@@ -14,19 +14,35 @@ jobs:
           godot --download-template windows
           godot --download-template android
           godot --download-template macos
-          mkdir -p linuxbsd/debug
-          mkdir -p linuxbsd/release
-          mkdir -p windows/debug
-          mkdir -p windows/release
-          mkdir -p android/debug
-          mkdir -p android/release
-          mkdir -p macos/debug
-          mkdir -p macos/release
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release linuxbsd linuxbsd/release
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release windows windows/release
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release android android/release
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release macos macos/release
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-debug linuxbsd linuxbsd/debug
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-debug windows windows/debug
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-debug android android/debug
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-debug macos macos/debug
+          mkdir compiles
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release linuxbsd compiles/linuxbsd_release.x86_64
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release windows compiles/windows_release.exe
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release android compiles/android_release.apk
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release macos compiles/macos_release.zip
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-debug linuxbsd compiles/linuxbsd_debug.x86_64
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-debug windows compiles/windows_debug.exe
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-debug android compiles/android_debug.apk
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-debug macos compiles/macos_debug.zip
+      - name: Create Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
+      - name: Upload Release Assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+        run: |
+          for asset in "compiles"; do
+            curl -X POST \
+              https://uploads.github.com/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}/assets \
+              -H 'Authorization: Bearer ${GITHUB_TOKEN}' \
+              -H 'Content-Type: application/zip' \
+              -T ${asset}
+          done

@@ -75,3 +75,7 @@ d={
 [layer_names]
 
 3d_physics/layer_1="Layer 1"
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true
