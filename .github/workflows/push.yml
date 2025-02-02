@@ -3,8 +3,22 @@ on:
 jobs:
   recompile_all_compiles:
     name: Recompile all Compiles
-    runs-on: ubuntu-24.10
+    runs-on: ubuntu-24.02
     steps:
-      - uses: actions/checkout@v4
-      - run: sudo apt install godot
-      - run: godot --path ${cwd}/Attack-Defend_RTS/attack-defend-rts --headless --export-release "Linux/X11"
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: compile
+        run: |
+          sudo apt-get install -y godot 
+          godot --download-template linuxd
+          godot --download-template windows
+          godot --download-template android
+          godot --download-template macos
+          mkdir -p /linuxbsd/debug
+          mkdir -p /linuxbsd/release
+          mkdir -p windows/debug
+          mkdir -p windows/release
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release linuxbsd
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release windows
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release android
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release macos
