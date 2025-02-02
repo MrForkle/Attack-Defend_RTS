@@ -35,8 +35,8 @@ func spawn_unit(unit,team):
 	unit_instantiated.position = $"Spawn Point".global_position
 	var color = null
 	if team == "red":
-		color = get_tree().get_root().get_node("Map").blue_material
-	elif team == "blue":
 		color = get_tree().get_root().get_node("Map").red_material
+	elif team == "blue":
+		color = get_tree().get_root().get_node("Map").blue_material
 	unit_instantiated.set_values(team,color)
 	get_tree().get_root().get_node("Map").add_child(unit_instantiated)

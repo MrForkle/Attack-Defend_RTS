@@ -2,7 +2,7 @@ extends RigidBody3D
 
 var health = 100
 var team = null
-var speed = 3
+var speed = 5
 var acceleration = 10
 var moving = false
 var target_position = null

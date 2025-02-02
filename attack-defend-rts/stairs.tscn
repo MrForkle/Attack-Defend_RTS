@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://yf0gly32cjvs"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_boqlt"]
-size = Vector3(4, 10, 1)
+size = Vector3(4, 15, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_hburj"]
-size = Vector3(4, 10, 1)
+size = Vector3(4, 15, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qyokd"]
 size = Vector3(8, 4, 1)
@@ -24,15 +24,16 @@ collision_layer = 32769
 collision_mask = 32769
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.78617, -2.12868)
+transform = Transform3D(1, 0, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, -0.249858, 2.33635, 1.07448)
 shape = SubResource("BoxShape3D_boqlt")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0194068, 0.0112045)
 mesh = SubResource("BoxMesh_hburj")
 skeleton = NodePath("../..")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.173648, -0.984808, 0, 0.984808, 0.173648, 4.019, 5.5, -6.591)
+transform = Transform3D(1, 0, 0, 0, 0.34202, -0.939693, 0, 0.939693, 0.34202, 3.81232, 7.07046, -4.39682)
 shape = SubResource("BoxShape3D_boqlt")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="CollisionShape3D2"]
@@ -40,7 +41,7 @@ mesh = SubResource("BoxMesh_hburj")
 skeleton = NodePath("../../CollisionShape3D/MeshInstance3D")
 
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.766044, -0.642788, 0, 0.642788, 0.766044, 1.92732, 7.97704, -0.986196)
+transform = Transform3D(1, 0, 0, 0, 0.766044, -0.642788, 0, 0.642788, 0.766044, 1.66103, 11.0479, 3.55939)
 shape = SubResource("BoxShape3D_qyokd")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D3"]
