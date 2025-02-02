@@ -59,4 +59,5 @@ func _input(event):
 		if raycat_result == null:
 			return
 		for i in nodes:
-			i.set_target_position(raycat_result['position'])
+			if i.is_in_group("Building") != true:
+				i.set_target_position(raycat_result['position'])

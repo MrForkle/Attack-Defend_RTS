@@ -7,6 +7,6 @@
 script = ExtResource("1_pxskb")
 
 [node name="Player Camera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.976672, 0.214735, 0, -0.214735, 0.976672, 0, 10, 10)
+transform = Transform3D(1, 0, 0, 0, 0.976672, 0.214735, 0, -0.214735, 0.976672, 0, 16.301, 16.0297)
 current = true
 script = ExtResource("2_ixtbe")

@@ -57,6 +57,8 @@ shape = SubResource("SphereShape3D_v2d0x")
 
 [node name="Gun" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.625983, 0, 0)
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("2_tyfq7")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="Gun"]
