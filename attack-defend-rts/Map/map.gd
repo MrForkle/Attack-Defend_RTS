@@ -1,5 +1,5 @@
 extends Node3D
-#1sdsdsdssd
+#1sdsds
 @onready var red_material := StandardMaterial3D.new()
 @onready var blue_material := StandardMaterial3D.new()
 
