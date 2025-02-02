@@ -14,11 +14,19 @@ jobs:
           godot --download-template windows
           godot --download-template android
           godot --download-template macos
-          mkdir -p /linuxbsd/debug
-          mkdir -p /linuxbsd/release
+          mkdir -p linuxbsd/debug
+          mkdir -p linuxbsd/release
           mkdir -p windows/debug
           mkdir -p windows/release
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release linuxbsd
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release windows
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release android
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release macos
+          mkdir -p android/debug
+          mkdir -p android/release
+          mkdir -p macos/debug
+          mkdir -p macos/release
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release linuxbsd linuxbsd/release
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release windows windows/release
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release android android/release
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release macos macos/release
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-debug linuxbsd linuxbsd/debug
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-debug windows windows/debug
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-debug android android/debug
+          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-debug macos macos/debug
