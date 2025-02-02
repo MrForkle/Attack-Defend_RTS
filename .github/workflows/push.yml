@@ -3,7 +3,7 @@ on:
 jobs:
   recompile_all_compiles:
     name: Recompile all Compiles
-    runs-on: ubuntu-24.02
+    runs-on: ubuntu
     steps:
       - name: checkout
         uses: actions/checkout@v4
