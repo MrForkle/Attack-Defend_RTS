@@ -7,4 +7,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt install godot
-      - run: godot --headless --export-release "Linux/X11"
+      - run: godot --path ${cwd}/Attack-Defend_RTS/attack-defend-rts --headless --export-release "Linux/X11"
