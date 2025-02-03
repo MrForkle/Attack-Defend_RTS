@@ -20,8 +20,9 @@ func deselect():
 	$"Selection Ring".hide()
 	remove_from_group("Selected")
 
-func set_values(set_team,color):
+func set_values(set_team,color,initial_target_position):
 	team = set_team
+	set_target_position(initial_target_position)
 	get_node("Solid Version").mesh.material = color
 	if team == "red":
 		collision_layer = 1 + 2 + 16384 + 32768

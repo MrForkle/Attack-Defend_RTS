@@ -8,6 +8,8 @@ var blue_count = 0
 func _ready() -> void:
 	red_material = get_tree().get_root().get_node("Map").red_material
 	blue_material = get_tree().get_root().get_node("Map").blue_material
+	$RigidBody3D/MeshInstance3D.mesh.material.albedo_color = Color("blue")
+	$RigidBody3D/MeshInstance3D2.mesh.material.albedo_color = Color("blue")
 
 func update_capture_point():
 	red_count = 0
@@ -20,11 +22,11 @@ func update_capture_point():
 			elif i.team == "blue":
 				blue_count += 1
 	if red_count > blue_count:
-		print("sssssssss")
 		$RigidBody3D/MeshInstance3D.mesh.material.albedo_color = Color("red")
 		$RigidBody3D/MeshInstance3D2.mesh.material.albedo_color = Color("red")
+		OS.alert("You Lost!")
+		OS.crash("")
 	elif red_count < blue_count:
-		print("aaaaaaaaaaaaaa")
 		$RigidBody3D/MeshInstance3D.mesh.material.albedo_color = Color("blue")
 		$RigidBody3D/MeshInstance3D2.mesh.material.albedo_color = Color("blue")
 

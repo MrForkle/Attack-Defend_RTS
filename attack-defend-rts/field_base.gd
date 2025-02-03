@@ -30,6 +30,9 @@ func deselect():
 	remove_from_group("Selected")
 
 func spawn_unit(unit,team):
+	if get_tree().get_root().get_node("Map/CanvasLayer/RichTextLabel").check_money(100) != true:
+		return
+	get_tree().get_root().get_node("Map/CanvasLayer/RichTextLabel").update_money(-100)
 	unit = units[unit]
 	var unit_instantiated = unit.instantiate()
 	unit_instantiated.position = $"Spawn Point".global_position
@@ -38,5 +41,5 @@ func spawn_unit(unit,team):
 		color = get_tree().get_root().get_node("Map").red_material
 	elif team == "blue":
 		color = get_tree().get_root().get_node("Map").blue_material
-	unit_instantiated.set_values(team,color)
+	unit_instantiated.set_values(team,color,to_global(Vector3(3,0,0)))
 	get_tree().get_root().get_node("Map").add_child(unit_instantiated)
