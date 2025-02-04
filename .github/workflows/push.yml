@@ -3,6 +3,9 @@ name: Create Release
 on:
   push:
 
+permissions:
+  content: write
+
 jobs:
   release:
     name: Release
@@ -15,6 +18,9 @@ jobs:
         uses: actions/checkout@master
         with:
           fetch-depth: 0
+
+      - name: Create Output Directory
+        run: mkdir attack-defend-rts-compiles
 
       - name: Get next version
         uses: reecetech/version-increment@2024.10.1
@@ -38,3 +44,15 @@ jobs:
           tag: v${{ steps.version.outputs.version }}
           allowUpdates: true
           artifacts: ${{ steps.build.outputs.build }}
+
+      - name: Git checkin
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git commit -am "v${VERSION}"
+          git tag "v${VERSION}"
+
+      - name: Push
+        uses: ad-m/github-push-action@master
+        with:
+          force: true
