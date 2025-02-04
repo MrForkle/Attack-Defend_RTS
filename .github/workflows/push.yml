@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        platform: [Linux, Windows Desktop, macOS, Android]
+        platform: [Linux, Windows Desktop, macOS]
     steps:
       - name: Check out
         uses: actions/checkout@master
@@ -48,16 +48,11 @@ jobs:
         with:
           tag: v${{ steps.version.outputs.version }}
           allowUpdates: true
-          artifacts: ${{ steps.build.outputs.build }}*
+          artifacts: attach-defend-rts-compiles/*
 
       - name: Git checkin
         env:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
-          git commit -am "v${VERSION}"
           git tag "v${VERSION}"
-
-      - name: Push
-        uses: ad-m/github-push-action@master
-        with:
-          force: true
+          git push
