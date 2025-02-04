@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        platform: [Linux, Windows Desktop, macOS]
+        platform: [Linux, Windows Desktop]  #, macOS, Android]
     steps:
       - name: Check out
         uses: actions/checkout@master
@@ -51,7 +51,7 @@ jobs:
         with:
           tag: v${{ steps.version.outputs.version }}
           allowUpdates: true
-          artifacts: attach-defend-rts-compiles/*
+          artifacts: attack-defend-rts-compiles/*
 
       - name: Git checkin
         env:
