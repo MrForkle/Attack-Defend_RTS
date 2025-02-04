@@ -31,6 +31,7 @@ size = Vector2(1000, 1000)
 script = ExtResource("1_6lftu")
 
 [node name="Camera" parent="." instance=ExtResource("2_md8jn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.03396, 0, 23.607)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.0871558, 0.996195, 0, -0.996195, 0.0871558, 0, 0, 0)
