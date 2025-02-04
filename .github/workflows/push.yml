@@ -1,48 +1,58 @@
+name: Create Release
+
 on:
   push:
+
+permissions:
+  contents: write
+
 jobs:
-  recompile_all_compiles:
-    name: Recompile all Compiles
-    runs-on: ubuntu-24.02
+  release:
+    name: Release
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        platform: [Linux, Windows Desktop]  #, macOS, Android]
     steps:
-      - name: checkout
-        uses: actions/checkout@v4
-      - name: compile
-        run: |
-          sudo apt-get install -y godot 
-          godot --download-template linuxd
-          godot --download-template windows
-          godot --download-template android
-          godot --download-template macos
-          mkdir compiles
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release linuxbsd compiles/linuxbsd_release.x86_64
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release windows compiles/windows_release.exe
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release android compiles/android_release.apk
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-release macos compiles/macos_release.zip
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-debug linuxbsd compiles/linuxbsd_debug.x86_64
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-debug windows compiles/windows_debug.exe
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-debug android compiles/android_debug.apk
-          godot --path ${CWD}/Attack-Defend_RTS/attack-defend-rts --headless --export-debug macos compiles/macos_debug.zip
-      - name: Create Release
-        uses: actions/create-release@v1
+      - name: Check out
+        uses: actions/checkout@master
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
-          draft: false
-          prerelease: false
-      - name: Upload Release Assets
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          fetch-depth: 0
+
+      - name: Create Output Directory
+        run: mkdir attack-defend-rts-compiles
+
+      - name: Set up git
         run: |
-          for asset in "compiles"; do
-            curl -X POST \
-              https://uploads.github.com/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}/assets \
-              -H 'Authorization: Bearer ${GITHUB_TOKEN}' \
-              -H 'Content-Type: application/zip' \
-              -T ${asset}
-          done
+          git config user.email "${GITHUB_ACTOR}"@users.noreply.github.com
+          git config user.name "${GITHUB_ACTOR}"
+
+      - name: Get next version
+        uses: reecetech/version-increment@2024.10.1
+        id: version
+        with:
+          scheme: calver
+          increment: patch
+
+      - name: Build
+        id: build
+        uses: felix-schindler/build-godot-action@v2.0.0
+        with:
+          name: attack-defend-rts
+          projectDir: attack-defend-rts
+          preset: ${{ matrix.platform }}
+          debugMode: "true"
+
+      - name: Create prerelease
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ steps.version.outputs.version }}
+          allowUpdates: true
+          artifacts: attack-defend-rts-compiles/*
+
+      - name: Git checkin
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git tag "v${VERSION}"
+          git push
