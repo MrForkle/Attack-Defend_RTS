@@ -1,7 +1,10 @@
 extends StaticBody3D
 @onready var camera_path = get_tree().get_root().get_node("Map").get_node("Camera").get_node("Player Camera")
 var units = {
-	"Rifleman" = preload('res://Units/Rifleman/rifleman.tscn')
+	"Rifleman" = {
+		"path" = preload('res://Units/Rifleman/rifleman.tscn'),
+		"cost" = 100
+		}
 }
 
 func _process(_delta: float) -> void:
@@ -30,10 +33,10 @@ func deselect():
 	remove_from_group("Selected")
 
 func spawn_unit(unit,team):
-	if get_tree().get_root().get_node("Map/CanvasLayer/RichTextLabel").check_money(100) != true:
+	if get_tree().get_root().get_node("Map/CanvasLayer/RichTextLabel").check_money(units[unit]["cost"]) != true:
 		return
-	get_tree().get_root().get_node("Map/CanvasLayer/RichTextLabel").update_money(-100)
-	unit = units[unit]
+	get_tree().get_root().get_node("Map/CanvasLayer/RichTextLabel").update_money(-units[unit]["cost"])
+	unit = units[unit]["path"]
 	var unit_instantiated = unit.instantiate()
 	unit_instantiated.position = $"Spawn Point".global_position
 	var color = null

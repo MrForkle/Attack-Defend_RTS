@@ -9,7 +9,7 @@ var cycle :int = 0
 
 func shoot_bullet():
 	var bullet_instantiated := bullet.instantiate()
-	bullet_instantiated.position = $"CollisionShape3D2/Bullet Spawn Point".global_position
+	bullet_instantiated.position = $"Bullet Spawn Point".global_position
 	bullet_instantiated.apply_central_force(to_global(position+Vector3(0,0,-4000))-global_position)
 	get_tree().get_root().add_child(bullet_instantiated)
 	

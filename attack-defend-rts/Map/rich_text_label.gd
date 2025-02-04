@@ -7,7 +7,7 @@ func update_money(change):
 	text = "$" + str(money)
 
 func _ready() -> void:
-	update_money(500)
+	update_money(5000)
 
 func _on_timer_timeout() -> void:
 	update_money(100)
