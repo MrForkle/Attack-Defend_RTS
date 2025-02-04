@@ -5,7 +5,7 @@ on:
 
 jobs:
   release:
-    name: Releas
+    name: Release
     runs-on: ubuntu-24.04
     strategy:
       matrix:
@@ -25,7 +25,7 @@ jobs:
 
       - name: Build
         id: build
-        uses: manleydev/build-godot-action@v1.4.1
+        uses: felix-schindler/build-godot-action@v2.0.0
         with:
           name: attack-defend-rts
           projectDir: attack-defend-rts
