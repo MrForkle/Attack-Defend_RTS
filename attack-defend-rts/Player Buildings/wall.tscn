@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://cswk78u51nikl"]
+
+[node name="Wall" type="StaticBody3D"]
