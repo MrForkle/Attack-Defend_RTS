@@ -30,8 +30,8 @@ func update_capture_point():
 		$RigidBody3D/MeshInstance3D.mesh.material.albedo_color = Color("blue")
 		$RigidBody3D/MeshInstance3D2.mesh.material.albedo_color = Color("blue")
 
-func _on_body_entered(body: Node3D) -> void:
+func _on_body_entered(_body: Node3D) -> void:
 	update_capture_point()
 
-func _on_body_exited(body: Node3D) -> void:
+func _on_body_exited(_body: Node3D) -> void:
 	update_capture_point()

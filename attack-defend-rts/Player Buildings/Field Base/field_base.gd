@@ -19,7 +19,7 @@ func begin_placing():
 
 func end_placing():
 	remove_from_group("Placing")
-	reparent(get_parent().get_node("NavigationRegion3D"))
+	reparent(get_parent().get_node("Nav Mesh"))
 	$CollisionShape3D.disabled = false
 
 func select():
