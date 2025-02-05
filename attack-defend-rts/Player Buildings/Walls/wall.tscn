@@ -1,3 +1,20 @@
-[gd_scene format=3 uid="uid://cswk78u51nikl"]
+[gd_scene load_steps=4 format=3 uid="uid://cswk78u51nikl"]
 
-[node name="Wall" type="StaticBody3D"]
+[ext_resource type="Script" path="res://Player Buildings/Walls/wall.gd" id="1_modbd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k04cj"]
+size = Vector3(1, 2.5, 5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4rnkg"]
+size = Vector3(1, 2.5, 5)
+
+[node name="Wall" type="StaticBody3D" groups=["Building"]]
+script = ExtResource("1_modbd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+shape = SubResource("BoxShape3D_k04cj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+mesh = SubResource("BoxMesh_4rnkg")

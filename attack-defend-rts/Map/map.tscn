@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://fye1t3pnhxx5"]
+[gd_scene load_steps=15 format=3 uid="uid://fye1t3pnhxx5"]
 
 [ext_resource type="Script" path="res://Map/map.gd" id="1_6lftu"]
 [ext_resource type="Shader" uid="uid://cuq1vfluwe8ux" path="res://Map/ground.tres" id="1_pbkqe"]
@@ -7,7 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://cygp8icclyhcw" path="res://Map/Buildings/Basic Building/building.tscn" id="4_g8fqj"]
 [ext_resource type="Script" path="res://Map/Field base button.gd" id="7_kghwk"]
 [ext_resource type="PackedScene" uid="uid://yf0gly32cjvs" path="res://Map/Buildings/Stair Building/stairs.tscn" id="7_r5oix"]
-[ext_resource type="PackedScene" uid="uid://f64q4l2y3ga1" path="res://Map/Buildings/capture_point.tscn" id="8_fyqvs"]
+[ext_resource type="PackedScene" uid="uid://f64q4l2y3ga1" path="res://Map/Buildings/Capture Point/capture_point.tscn" id="8_fyqvs"]
+[ext_resource type="Script" path="res://Map/wall_button.gd" id="9_ymxhs"]
 [ext_resource type="Script" path="res://Map/rich_text_label.gd" id="10_b3by2"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_4hob5"]
@@ -433,11 +434,19 @@ transform = Transform3D(0.821875, 0, -0.569667, 0, 1, 0, 0.569667, 0, 0.821875, 
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Button" type="Button" parent="CanvasLayer"]
+[node name="field base button" type="Button" parent="CanvasLayer"]
 offset_right = 8.0
 offset_bottom = 8.0
 text = "Place Field Base"
 script = ExtResource("7_kghwk")
+
+[node name="wall button" type="Button" parent="CanvasLayer"]
+offset_left = 133.0
+offset_top = 1.0
+offset_right = 264.0
+offset_bottom = 32.0
+text = "Place Wall"
+script = ExtResource("9_ymxhs")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer"]
 offset_left = 1.0
@@ -480,6 +489,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -108.021, 0, 108.954)
 [node name="Non Navigation Buildings" type="Node3D" parent="."]
 
 [connection signal="bake_finished" from="Nav Mesh" to="Nav Mesh" method="_on_bake_finished"]
-[connection signal="pressed" from="CanvasLayer/Button" to="CanvasLayer/Button" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/field base button" to="CanvasLayer/field base button" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/wall button" to="CanvasLayer/wall button" method="_on_pressed"]
 [connection signal="timeout" from="CanvasLayer/Timer" to="CanvasLayer/RichTextLabel" method="_on_timer_timeout"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
