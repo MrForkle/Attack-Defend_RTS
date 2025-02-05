@@ -42,9 +42,6 @@ func update_aiming():
 	
 
 func _process(_delta):
-	
-	if get_parent().is_in_group("Placing"): return
-	
 	update_aiming()
 	
 	if cycle >= 30:
