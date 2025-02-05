@@ -1,6 +1,6 @@
-extends StaticBody3D
+extends Node3D
 
-var bullet := preload("res://bullet.tscn")
+var bullet := preload("res://Units/Bullet/bullet.tscn")
 
 var shooting := false
 var looks_at = null
