@@ -1,5 +1,5 @@
 extends Button
-var field_base = preload("res://field_base.tscn")
+var field_base = preload("res://Player Buildings/Field Base/field_base.tscn")
 var cost = 500
 
 func _on_pressed() -> void:

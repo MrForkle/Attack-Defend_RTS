@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dp6gxme81itgq"]
 
-[ext_resource type="Script" path="res://bullet.gd" id="1_janaw"]
+[ext_resource type="Script" path="res://Units/Bullet/bullet.gd" id="1_janaw"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_78v5y"]
 radius = 0.05

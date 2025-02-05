@@ -4,10 +4,10 @@
 [ext_resource type="Shader" uid="uid://cuq1vfluwe8ux" path="res://Map/ground.tres" id="1_pbkqe"]
 [ext_resource type="PackedScene" uid="uid://bbscyi05c6ng7" path="res://Map/camera.tscn" id="2_md8jn"]
 [ext_resource type="Script" path="res://Map/navigation_region_3d.gd" id="3_rfbm6"]
-[ext_resource type="PackedScene" uid="uid://cygp8icclyhcw" path="res://building.tscn" id="4_g8fqj"]
+[ext_resource type="PackedScene" uid="uid://cygp8icclyhcw" path="res://Map/Buildings/Basic Building/building.tscn" id="4_g8fqj"]
 [ext_resource type="Script" path="res://Map/Field base button.gd" id="7_kghwk"]
-[ext_resource type="PackedScene" uid="uid://yf0gly32cjvs" path="res://stairs.tscn" id="7_r5oix"]
-[ext_resource type="PackedScene" uid="uid://f64q4l2y3ga1" path="res://capture_point.tscn" id="8_fyqvs"]
+[ext_resource type="PackedScene" uid="uid://yf0gly32cjvs" path="res://Map/Buildings/Stair Building/stairs.tscn" id="7_r5oix"]
+[ext_resource type="PackedScene" uid="uid://f64q4l2y3ga1" path="res://Map/Buildings/capture_point.tscn" id="8_fyqvs"]
 [ext_resource type="Script" path="res://Map/rich_text_label.gd" id="10_b3by2"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_4hob5"]
