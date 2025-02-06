@@ -13,6 +13,6 @@ func _on_timer_timeout() -> void:
 	update_money(100)
 
 func check_money(check_value):
-	if money > check_value:
+	if money >= check_value:
 		return true
 	else: return false

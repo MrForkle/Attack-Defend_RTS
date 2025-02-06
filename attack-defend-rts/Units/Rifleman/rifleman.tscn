@@ -40,7 +40,6 @@ target_desired_distance = 0.1
 avoidance_enabled = true
 radius = 1.0
 neighbor_distance = 5.0
-debug_enabled = true
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 
