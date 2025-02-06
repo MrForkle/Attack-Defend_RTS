@@ -39,13 +39,13 @@ func update_aiming():
 		look_at(look_at_position)
 	else:
 		shooting = false
-	
 
-func _process(_delta):
+func _on_timer_timeout() -> void:
+	if shooting == true:
+		shoot_bullet()
+
+func _on_detection_range_body_entered(_body: Node3D) -> void:
 	update_aiming()
-	
-	if cycle >= 30:
-		cycle = 0
-		if shooting == true:
-			shoot_bullet()
-	cycle += 1
+
+func _on_detection_range_body_exited(_body: Node3D) -> void:
+	update_aiming()

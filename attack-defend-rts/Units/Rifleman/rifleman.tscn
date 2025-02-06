@@ -62,4 +62,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.13163e-14, -0.725451)
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("CapsuleMesh_ts7uc")
 
+[node name="Timer" type="Timer" parent="Gun"]
+process_callback = 0
+wait_time = 0.5
+autostart = true
+
 [connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_target_reached"]
+[connection signal="body_entered" from="Detection Range" to="Gun" method="_on_detection_range_body_entered"]
+[connection signal="body_exited" from="Detection Range" to="Gun" method="_on_detection_range_body_exited"]
+[connection signal="timeout" from="Gun/Timer" to="Gun" method="_on_timer_timeout"]
