@@ -41,6 +41,8 @@ func _process(delta):
 		queue_free()
 	
 	if target_position == null or moving != true: return
+	if $light_infantry/AnimationPlayer.is_playing() != true:
+		$light_infantry/AnimationPlayer.play("Armature_004Action")
 	var direction = Vector3()
 	
 	nav.target_position = target_position
@@ -52,3 +54,4 @@ func _process(delta):
 
 func _on_navigation_agent_3d_target_reached():
 	moving = false
+	$light_infantry/AnimationPlayer.stop()

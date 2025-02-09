@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=3 uid="uid://dv3lk8emsgn6j"]
+
+[ext_resource type="Script" path="res://Menus/level_select_button.gd" id="1_a0ysu"]
+[ext_resource type="Script" path="res://Menus/level_one_button.gd" id="2_8i2tw"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Main menu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Level Select Button" type="Button" parent="Main menu"]
+layout_mode = 1
+offset_left = 523.0
+offset_top = 255.0
+offset_right = 633.0
+offset_bottom = 286.0
+text = "Choose Level"
+script = ExtResource("1_a0ysu")
+
+[node name="Level Select" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Level One Button" type="Button" parent="Level Select"]
+layout_mode = 0
+offset_left = 516.0
+offset_top = 72.0
+offset_right = 601.0
+offset_bottom = 103.0
+text = "Level One"
+script = ExtResource("2_8i2tw")
+
+[connection signal="pressed" from="Main menu/Level Select Button" to="Main menu/Level Select Button" method="_on_pressed"]
+[connection signal="pressed" from="Level Select/Level One Button" to="Level Select/Level One Button" method="_on_pressed"]
