@@ -12,6 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Main menu" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -45,6 +46,22 @@ offset_right = 601.0
 offset_bottom = 103.0
 text = "Level One"
 script = ExtResource("2_8i2tw")
+
+[node name="Loading Screen" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Loading Screen"]
+layout_mode = 0
+offset_left = 476.0
+offset_top = 293.0
+offset_right = 538.0
+offset_bottom = 316.0
+text = "Loading"
 
 [connection signal="pressed" from="Main menu/Level Select Button" to="Main menu/Level Select Button" method="_on_pressed"]
 [connection signal="pressed" from="Level Select/Level One Button" to="Level Select/Level One Button" method="_on_pressed"]
