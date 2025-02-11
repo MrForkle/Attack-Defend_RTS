@@ -25,7 +25,7 @@ func update_capture_point():
 		$RigidBody3D/MeshInstance3D.mesh.material.albedo_color = Color("red")
 		$RigidBody3D/MeshInstance3D2.mesh.material.albedo_color = Color("red")
 		OS.alert("You Lost!")
-		OS.crash("")
+		get_tree().quit()
 	elif red_count < blue_count:
 		$RigidBody3D/MeshInstance3D.mesh.material.albedo_color = Color("blue")
 		$RigidBody3D/MeshInstance3D2.mesh.material.albedo_color = Color("blue")
