@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://dv3lk8emsgn6j"]
+[gd_scene load_steps=8 format=3 uid="uid://dv3lk8emsgn6j"]
 
 [ext_resource type="Script" path="res://Menus/level_select_button.gd" id="1_a0ysu"]
 [ext_resource type="Script" path="res://Menus/level_one_button.gd" id="2_8i2tw"]
+[ext_resource type="Script" path="res://Menus/options_button.gd" id="2_517ie"]
 [ext_resource type="Script" path="res://Menus/exit_button.gd" id="2_imfye"]
 [ext_resource type="Script" path="res://Menus/options.gd" id="4_pfxum"]
 [ext_resource type="Script" path="res://Menus/window_type_button.gd" id="5_6nwqs"]
+[ext_resource type="Script" path="res://Menus/close.gd" id="7_3o3w8"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -15,7 +17,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Main menu" type="PanelContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -45,6 +46,7 @@ text = "Join Game"
 [node name="Options Button" type="Button" parent="Main menu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Options"
+script = ExtResource("2_517ie")
 
 [node name="Exit Button" type="Button" parent="Main menu/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -87,6 +89,7 @@ offset_bottom = 316.0
 text = "Loading"
 
 [node name="Options" type="PanelContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -174,9 +177,12 @@ text = "Apply"
 [node name="Close" type="Button" parent="Options/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Close"
+script = ExtResource("7_3o3w8")
 
 [connection signal="pressed" from="Main menu/MarginContainer/VBoxContainer/Level Select Button" to="Main menu/MarginContainer/VBoxContainer/Level Select Button" method="_on_pressed"]
+[connection signal="pressed" from="Main menu/MarginContainer/VBoxContainer/Options Button" to="Main menu/MarginContainer/VBoxContainer/Options Button" method="_on_pressed"]
 [connection signal="pressed" from="Main menu/MarginContainer/VBoxContainer/Exit Button" to="Main menu/MarginContainer/VBoxContainer/Exit Button" method="_on_pressed"]
 [connection signal="pressed" from="Level Select/Level One Button" to="Level Select/Level One Button" method="_on_pressed"]
 [connection signal="item_selected" from="Options/VBoxContainer/TabContainer/Graphics/VBoxContainer/HSplitContainer/Window Type Button" to="Options/VBoxContainer/TabContainer/Graphics/VBoxContainer/HSplitContainer/Window Type Button" method="_on_item_selected"]
 [connection signal="pressed" from="Options/VBoxContainer/HBoxContainer/Apply" to="Options" method="_on_apply_pressed"]
+[connection signal="pressed" from="Options/VBoxContainer/HBoxContainer/Close" to="Options/VBoxContainer/HBoxContainer/Close" method="_on_pressed"]
