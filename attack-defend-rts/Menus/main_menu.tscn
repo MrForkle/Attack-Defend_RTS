@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dv3lk8emsgn6j"]
+[gd_scene load_steps=9 format=3 uid="uid://dv3lk8emsgn6j"]
 
 [ext_resource type="Script" path="res://Menus/level_select_button.gd" id="1_a0ysu"]
 [ext_resource type="Script" path="res://Menus/level_one_button.gd" id="2_8i2tw"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Menus/options.gd" id="4_pfxum"]
 [ext_resource type="Script" path="res://Menus/window_type_button.gd" id="5_6nwqs"]
 [ext_resource type="Script" path="res://Menus/close.gd" id="7_3o3w8"]
+[ext_resource type="Script" path="res://Menus/borderless_button.gd" id="7_8knu5"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -64,10 +65,10 @@ grow_vertical = 2
 
 [node name="Level One Button" type="Button" parent="Level Select"]
 layout_mode = 0
-offset_left = 516.0
-offset_top = 72.0
-offset_right = 601.0
-offset_bottom = 103.0
+offset_left = 540.0
+offset_top = 205.0
+offset_right = 625.0
+offset_bottom = 236.0
 text = "Level One"
 script = ExtResource("2_8i2tw")
 
@@ -103,6 +104,7 @@ script = ExtResource("4_pfxum")
 [node name="VBoxContainer" type="VSplitContainer" parent="Options"]
 layout_mode = 2
 split_offset = 1000
+dragger_visibility = 1
 
 [node name="TabContainer" type="TabContainer" parent="Options/VBoxContainer"]
 layout_mode = 2
@@ -118,6 +120,7 @@ layout_mode = 2
 [node name="HSplitContainer" type="HSplitContainer" parent="Options/VBoxContainer/TabContainer/Graphics/VBoxContainer"]
 layout_mode = 2
 split_offset = 350
+dragger_visibility = 1
 
 [node name="Window Type" type="Label" parent="Options/VBoxContainer/TabContainer/Graphics/VBoxContainer/HSplitContainer"]
 layout_mode = 2
@@ -135,6 +138,7 @@ script = ExtResource("5_6nwqs")
 [node name="HSplitContainer3" type="HSplitContainer" parent="Options/VBoxContainer/TabContainer/Graphics/VBoxContainer"]
 layout_mode = 2
 split_offset = 350
+dragger_visibility = 1
 
 [node name="Borderless" type="Label" parent="Options/VBoxContainer/TabContainer/Graphics/VBoxContainer/HSplitContainer3"]
 layout_mode = 2
@@ -143,10 +147,12 @@ text = "Borderless"
 [node name="Borderless Button" type="CheckButton" parent="Options/VBoxContainer/TabContainer/Graphics/VBoxContainer/HSplitContainer3"]
 layout_mode = 2
 text = "Enabled"
+script = ExtResource("7_8knu5")
 
 [node name="HSplitContainer2" type="HSplitContainer" parent="Options/VBoxContainer/TabContainer/Graphics/VBoxContainer"]
 layout_mode = 2
 split_offset = 350
+dragger_visibility = 1
 
 [node name="VSync" type="Label" parent="Options/VBoxContainer/TabContainer/Graphics/VBoxContainer/HSplitContainer2"]
 layout_mode = 2
@@ -184,5 +190,7 @@ script = ExtResource("7_3o3w8")
 [connection signal="pressed" from="Main menu/MarginContainer/VBoxContainer/Exit Button" to="Main menu/MarginContainer/VBoxContainer/Exit Button" method="_on_pressed"]
 [connection signal="pressed" from="Level Select/Level One Button" to="Level Select/Level One Button" method="_on_pressed"]
 [connection signal="item_selected" from="Options/VBoxContainer/TabContainer/Graphics/VBoxContainer/HSplitContainer/Window Type Button" to="Options/VBoxContainer/TabContainer/Graphics/VBoxContainer/HSplitContainer/Window Type Button" method="_on_item_selected"]
+[connection signal="button_down" from="Options/VBoxContainer/TabContainer/Graphics/VBoxContainer/HSplitContainer3/Borderless Button" to="Options/VBoxContainer/TabContainer/Graphics/VBoxContainer/HSplitContainer3/Borderless Button" method="_on_button_down"]
+[connection signal="button_up" from="Options/VBoxContainer/TabContainer/Graphics/VBoxContainer/HSplitContainer3/Borderless Button" to="Options/VBoxContainer/TabContainer/Graphics/VBoxContainer/HSplitContainer3/Borderless Button" method="_on_button_up"]
 [connection signal="pressed" from="Options/VBoxContainer/HBoxContainer/Apply" to="Options" method="_on_apply_pressed"]
 [connection signal="pressed" from="Options/VBoxContainer/HBoxContainer/Close" to="Options/VBoxContainer/HBoxContainer/Close" method="_on_pressed"]
