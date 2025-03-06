@@ -41,17 +41,24 @@ func _process(delta):
 		queue_free()
 	
 	if target_position == null or moving != true: return
-	if $light_infantry/AnimationPlayer.is_playing() != true:
-		$light_infantry/AnimationPlayer.play("Armature_004Action")
+	if $light_infantry_model/AnimationPlayer.is_playing() != true:
+		$light_infantry_model/AnimationPlayer.play("Armature_004Action")
 	var direction = Vector3()
 	
 	nav.target_position = target_position
-	
-	direction = nav.get_next_path_position() - global_position
+	var next_path_position = nav.get_next_path_position()
+	direction = next_path_position - global_position
 	direction = direction.normalized()
+	
+	if moving == true:
+		var original_x = $light_infantry_model.rotation.x
+		var original_z = $light_infantry_model.rotation.z
+		$light_infantry_model.look_at(next_path_position)
+		$light_infantry_model.rotation.x = original_x
+		$light_infantry_model.rotation.z = original_z
 	
 	linear_velocity = linear_velocity.lerp(direction * speed, acceleration * delta)
 
 func _on_navigation_agent_3d_target_reached():
 	moving = false
-	$light_infantry/AnimationPlayer.stop()
+	$light_infantry_model/AnimationPlayer.stop()

@@ -1,13 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://dv3lk8emsgn6j"]
+[gd_scene load_steps=14 format=3 uid="uid://dv3lk8emsgn6j"]
 
 [ext_resource type="Script" path="res://Menus/level_select_button.gd" id="1_a0ysu"]
+[ext_resource type="Script" path="res://Menus/main_menu.gd" id="1_ox7wd"]
 [ext_resource type="Script" path="res://Menus/level_one_button.gd" id="2_8i2tw"]
 [ext_resource type="Script" path="res://Menus/options_button.gd" id="2_517ie"]
 [ext_resource type="Script" path="res://Menus/exit_button.gd" id="2_imfye"]
+[ext_resource type="Script" path="res://Menus/join_game_button.gd" id="3_g4l10"]
 [ext_resource type="Script" path="res://Menus/options.gd" id="4_pfxum"]
 [ext_resource type="Script" path="res://Menus/window_type_button.gd" id="5_6nwqs"]
 [ext_resource type="Script" path="res://Menus/close.gd" id="7_3o3w8"]
 [ext_resource type="Script" path="res://Menus/borderless_button.gd" id="7_8knu5"]
+[ext_resource type="Script" path="res://Menus/cancel_button.gd" id="10_ysuye"]
+[ext_resource type="Script" path="res://Menus/connect_button.gd" id="11_ii4jp"]
+[ext_resource type="Script" path="res://Menus/chat_input.gd" id="13_jbd11"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -16,16 +21,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_ox7wd")
 
 [node name="Main menu" type="PanelContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 448.0
-offset_top = 264.0
-offset_right = -364.0
-offset_bottom = -248.0
+anchors_preset = -1
+anchor_left = 0.389
+anchor_top = 0.407
+anchor_right = 0.684
+anchor_bottom = 0.617
+offset_left = -0.128021
+offset_top = 0.264008
+offset_right = 0.0319824
+offset_bottom = 0.18396
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -43,6 +51,7 @@ script = ExtResource("1_a0ysu")
 [node name="Join Game Button" type="Button" parent="Main menu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Join Game"
+script = ExtResource("3_g4l10")
 
 [node name="Options Button" type="Button" parent="Main menu/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -93,12 +102,14 @@ text = "Loading"
 visible = false
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 59.0
-offset_top = 38.0
-offset_right = -44.0
-offset_bottom = -52.0
+anchor_left = 0.051
+anchor_top = 0.059
+anchor_right = 0.93
+anchor_bottom = 0.691
+offset_left = 0.247997
+offset_top = -0.232002
+offset_right = -0.360107
+offset_bottom = 0.231964
 script = ExtResource("4_pfxum")
 
 [node name="VBoxContainer" type="VSplitContainer" parent="Options"]
@@ -185,7 +196,70 @@ layout_mode = 2
 text = "Close"
 script = ExtResource("7_3o3w8")
 
+[node name="Join Game" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.339
+anchor_top = 0.269
+anchor_right = 0.615
+anchor_bottom = 0.659
+offset_left = 0.471985
+offset_top = -0.312012
+offset_right = -0.47998
+offset_bottom = -0.0320129
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Join Game"]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="Join Game/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "IP Address"
+
+[node name="Connect Button" type="Button" parent="Join Game/VBoxContainer"]
+layout_mode = 2
+text = "Connect"
+script = ExtResource("11_ii4jp")
+
+[node name="Cancel Button" type="Button" parent="Join Game/VBoxContainer"]
+layout_mode = 2
+text = "Cancel"
+script = ExtResource("10_ysuye")
+
+[node name="Chat" type="PanelContainer" parent="."]
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.825
+anchor_top = 0.752
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -0.400024
+offset_top = -0.296021
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Chat"]
+layout_mode = 2
+alignment = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Chat/VBoxContainer"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Chat/VBoxContainer/PanelContainer"]
+layout_mode = 2
+scroll_following = true
+
+[node name="Chat Input" type="LineEdit" parent="Chat/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter a Chat Message"
+script = ExtResource("13_jbd11")
+
 [connection signal="pressed" from="Main menu/MarginContainer/VBoxContainer/Level Select Button" to="Main menu/MarginContainer/VBoxContainer/Level Select Button" method="_on_pressed"]
+[connection signal="pressed" from="Main menu/MarginContainer/VBoxContainer/Join Game Button" to="Main menu/MarginContainer/VBoxContainer/Join Game Button" method="_on_pressed"]
 [connection signal="pressed" from="Main menu/MarginContainer/VBoxContainer/Options Button" to="Main menu/MarginContainer/VBoxContainer/Options Button" method="_on_pressed"]
 [connection signal="pressed" from="Main menu/MarginContainer/VBoxContainer/Exit Button" to="Main menu/MarginContainer/VBoxContainer/Exit Button" method="_on_pressed"]
 [connection signal="pressed" from="Level Select/Level One Button" to="Level Select/Level One Button" method="_on_pressed"]
@@ -194,3 +268,6 @@ script = ExtResource("7_3o3w8")
 [connection signal="button_up" from="Options/VBoxContainer/TabContainer/Graphics/VBoxContainer/HSplitContainer3/Borderless Button" to="Options/VBoxContainer/TabContainer/Graphics/VBoxContainer/HSplitContainer3/Borderless Button" method="_on_button_up"]
 [connection signal="pressed" from="Options/VBoxContainer/HBoxContainer/Apply" to="Options" method="_on_apply_pressed"]
 [connection signal="pressed" from="Options/VBoxContainer/HBoxContainer/Close" to="Options/VBoxContainer/HBoxContainer/Close" method="_on_pressed"]
+[connection signal="pressed" from="Join Game/VBoxContainer/Connect Button" to="Join Game/VBoxContainer/Connect Button" method="_on_pressed"]
+[connection signal="pressed" from="Join Game/VBoxContainer/Cancel Button" to="Join Game/VBoxContainer/Cancel Button" method="_on_pressed"]
+[connection signal="text_submitted" from="Chat/VBoxContainer/Chat Input" to="Chat/VBoxContainer/Chat Input" method="_on_text_submitted"]

@@ -43,7 +43,7 @@ func save_settings():
 
 func set_settings():
 	DisplayServer.window_set_mode(options["window"])
-	DisplayServer.window_set_flag(1,options["borderless"])
+	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS,options["borderless"])
 	DisplayServer.window_set_vsync_mode(options["vsync"])
 
 func _on_apply_pressed() -> void:

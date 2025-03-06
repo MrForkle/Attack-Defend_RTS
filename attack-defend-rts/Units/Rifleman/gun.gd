@@ -4,8 +4,13 @@ var bullet := preload("res://Units/Bullet/bullet.tscn")
 
 var shooting := false
 var looks_at = null
+var look_at_position = null
 var can_shoot_at = []
 var cycle :int = 0
+
+func _process(_delta: float) -> void:
+	if look_at_position != null:
+		look_at(look_at_position)
 
 func shoot_bullet():
 	var bullet_instantiated := bullet.instantiate()
@@ -34,11 +39,12 @@ func update_aiming():
 	if !can_shoot_at.is_empty():
 		looks_at = randi_range(0,len(can_shoot_at)-1)
 		shooting = true
-		var look_at_position = can_shoot_at[looks_at].global_position
+		look_at_position = can_shoot_at[looks_at].global_position
 		get_parent().look_at(look_at_position)
 		look_at(look_at_position)
-	else:
-		shooting = false
+		return
+	look_at_position = null
+	shooting = false
 
 func _on_timer_timeout() -> void:
 	if shooting == true:
@@ -49,3 +55,7 @@ func _on_detection_range_body_entered(_body: Node3D) -> void:
 
 func _on_detection_range_body_exited(_body: Node3D) -> void:
 	update_aiming()
+
+func _on_re_aim_timer_timeout() -> void:
+	if shooting != true:
+		update_aiming()
