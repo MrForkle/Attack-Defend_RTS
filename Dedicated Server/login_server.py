@@ -66,8 +66,6 @@ def srvr_mainloop():
                     data = data.decode()
                     data = data.split("\n")
                     print(data)
-
-
-
+  
 if __name__ == "__main__":
     main()
