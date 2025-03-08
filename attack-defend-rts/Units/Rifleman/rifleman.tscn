@@ -1,7 +1,7 @@
 [gd_scene load_steps=51 format=4 uid="uid://qu01rit6hmem"]
 
-[ext_resource type="Script" path="res://Units/Rifleman/rifleman.gd" id="1_q4yrl"]
-[ext_resource type="Script" path="res://Units/Rifleman/gun.gd" id="2_tyfq7"]
+[ext_resource type="Script" uid="uid://d18033vs8uejy" path="res://Units/Rifleman/rifleman.gd" id="1_q4yrl"]
+[ext_resource type="Script" uid="uid://cvwyqithw3ehh" path="res://Units/Rifleman/gun.gd" id="2_tyfq7"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_uf3hw"]
 
@@ -724,7 +724,7 @@ tracks/8/keys = PackedFloat32Array(0, 1, -0.0157333, -0.0123083, 0.890822, 0.453
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xeil6"]
 _data = {
-"Armature_004Action": SubResource("Animation_3crf7")
+&"Armature_004Action": SubResource("Animation_3crf7")
 }
 
 [node name="Rifleman" type="RigidBody3D" groups=["Selectable", "Unit"]]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://fwk6o62mwgj6"]
 
-[ext_resource type="Script" path="res://Player Buildings/Field Base/field_base.gd" id="1_0a6an"]
-[ext_resource type="Script" path="res://Map/button.gd" id="3_n1ase"]
+[ext_resource type="Script" uid="uid://dsvups860dy3q" path="res://Player Buildings/Field Base/field_base.gd" id="1_0a6an"]
+[ext_resource type="Script" uid="uid://b5wlvindg4k00" path="res://Map/button.gd" id="3_n1ase"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_d1y60"]
 size = Vector3(1, 2, 1)

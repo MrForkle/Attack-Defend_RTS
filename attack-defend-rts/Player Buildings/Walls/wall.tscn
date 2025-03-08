@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cswk78u51nikl"]
 
-[ext_resource type="Script" path="res://Player Buildings/Walls/wall.gd" id="1_modbd"]
+[ext_resource type="Script" uid="uid://beujh7jxc2876" path="res://Player Buildings/Walls/wall.gd" id="1_modbd"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_k04cj"]
 size = Vector3(1, 2.5, 5)

@@ -63,7 +63,10 @@ def srvr_mainloop():
                     data = conn.recv(1024)
                     if not data:
                         break
-                    print(f"Received:" + str(data.decode()))
+                    data = data.decode()
+                    data = data.split("\n")
+                    print(data)
+
 
 if __name__ == "__main__":
     main()

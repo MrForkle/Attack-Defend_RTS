@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cjo74v0bpxc10"]
 
-[ext_resource type="Script" path="res://sign_in_page.gd" id="1_byhym"]
+[ext_resource type="Script" uid="uid://css2m32pjqfrs" path="res://sign_in_page.gd" id="1_byhym"]
 
 [node name="sign in page" type="Control"]
 layout_mode = 3
@@ -10,3 +10,38 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_byhym")
+
+[node name="Username line edit" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 68.0
+offset_right = 292.0
+offset_bottom = 99.0
+placeholder_text = "Username"
+
+[node name="password line edit" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 104.0
+offset_right = 294.0
+offset_bottom = 135.0
+placeholder_text = "Password"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 87.0
+offset_top = 156.0
+offset_right = 137.0
+offset_bottom = 187.0
+text = "Login"
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 161.0
+offset_top = 157.0
+offset_right = 226.0
+offset_bottom = 188.0
+text = "Sign up"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
