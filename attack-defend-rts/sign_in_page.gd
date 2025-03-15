@@ -21,14 +21,14 @@ func connect_to_server():
 		if conn.get_status() == StreamPeerTCP.Status.STATUS_CONNECTED:
 			conn.set_no_delay(true)
 			connection_established = true
-			conn.put_utf8_string("hello")
+			conn.put_data(message.to_utf8_buffer())
 		print("waiting")
 		wait_time *= 1.1
 
 func sign_in():
 	var username = $"Username line edit".text
 	var password :String = $"password line edit".text
-	conn.put_utf8_string(username + seperation_str + password + seperation_str + "sign_in")
+	conn.put_data((username + seperation_str + password + seperation_str + "sign_in").to_utf8_buffer())
 
 func sign_up():
 	var username = $"Username line edit".text

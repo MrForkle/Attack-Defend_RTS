@@ -1,4 +1,4 @@
-import sqlite3,socket,time,asyncio
+import sqlite3,socket,time,asyncio,ccommunication_layer
 
 # Define the server's IP address and port
 HOST = '127.0.0.1'  # Localhost
@@ -19,29 +19,8 @@ def main():
 
     srvr_mainloop()
 
-def add_usr(user_id,name,hashed_password):
-    conn = sqlite3.connect("users.db")
-    cursor = conn.cursor()
-    query = 'SELECT name FROM Users WHERE name = ?'
-    cursor.execute(query,(name))
-    row = cursor.fetchone() #since userID is unique, you'd only get the next row 
-    if row[0]: #if userID is returned
-        return 1
-    
-    query = 'SELECT id FROM Users WHERE id = ?'
-    cursor.execute(query,(user_id))
-    row = cursor.fetchone() #since userID is unique, you'd only get the next row 
-    if row[0]: #if userID is returned
-        return 2
-        
-    # Insert data
-    cursor.execute('''
-    INSERT INTO Users (id, name, hashed_password) VALUES (?, ?, ?)
-    ''', (user_id,name,hashed_password))
-
-    # Commit the transaction
-    conn.commit()
-    return 0
+async def client_handler(client):
+    pass
 
 def srvr_mainloop():
     while True:
@@ -65,7 +44,6 @@ def srvr_mainloop():
                         break
                     data = data.decode()
                     data = data.split("\n")
-                    print(data)
                     
 if __name__ == "__main__":
     main()
