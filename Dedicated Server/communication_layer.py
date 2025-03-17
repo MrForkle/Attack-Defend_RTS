@@ -1,42 +1,54 @@
-import psycopg2 as pg_interface
+import psycopg2 as pg_interface, sqlalchemy
 
-DATABASE_NAME = "rts_database"
+POSTGRES_DATABASE_NAME = "rts_database"
+
+HOST = "127.0.0.1"
 PORT = 5432
 USERNAME = "postgres"
 PASSWORD = "password"
+DB = "rts_database"
+DSN_STRING = f"user={USERNAME} password={PASSWORD} " \
+             f"dbname={DB} host={HOST} port={PORT}"
 
-def add_usr(user_id,name,hashed_password):
-    conn = pg_interface.connect()
-    cursor = conn.cursor()
-    query = 'SELECT name FROM Users WHERE name = ?'
-    cursor.execute(query,(name))
-    row = cursor.fetchone() #since name is unique, you'd only get the next row 
-    if row[0]: #if name is returned
-        return 1
-    
-    query = 'SELECT id FROM Users WHERE id = ?'
-    cursor.execute(query,(user_id))
-    row = cursor.fetchone() #since userID is unique, you'd only get the next row 
-    if row[0]: #if userID is returned
-        return 2
-        
-    # Insert data
-    cursor.execute('''
-    INSERT INTO Users (id, name, hashed_password) VALUES (?, ?, ?)
-    ''', (user_id,name,hashed_password))
 
-    # Commit the transaction
-    conn.commit()
-    return 0
+def run_query(q, has_results=False, commit=True):
+    with pg_interface.connect(dsn=DSN_STRING) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(q)
+            if has_results == True:
+                try:
+                    return cursor.fetchall()
+                except psycopg2.NoResults:
+                    return []
+        if commit:
+            conn.commit()
+
+
+
+def init_postgres_tables():
+    query = '''
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY,
+        name TEXT NOT NULL,
+        hashed_password TEXT NOT NULL
+    )'''
+    run_query(query)
+
 
 def get_entries(table,column,search_keyword):
     #create the query
-    query = "SELECT " + column + " FROM " + table + " WHERE " + column + " = ?"
-    try: #attempt to connect to server return error code if ther is a failure
-        conn = pg_interface.connect()
-        cursor = conn.cursor()
-    except:
-        return 1
-    cursor.execute(query,(search_keyword)) #execute query
-    result = cursor.fetchone()#fetch results
-    
+    query = f"SELECT {column} FROM {table} WHERE {column} = ?"
+    run_query(query,has_results=True)
+
+
+def get_all_records(table):
+    query = f"select * from {table}"
+    return run_query(query,has_results=True)
+
+def add_entry(table,column_values : tuple):
+    query = '''INSERT INTO table_name
+    VALUES 
+    '''
+    values = ""
+    for i in column_values:
+        values.

@@ -11,7 +11,6 @@ func _ready() -> void:
 
 func connect_to_server():
 	conn.connect_to_host(host,port)
-	var message = "hello"
 	var wait_time = 0.1
 	var connection_established = false
 	while connection_established != true:
@@ -21,19 +20,17 @@ func connect_to_server():
 		if conn.get_status() == StreamPeerTCP.Status.STATUS_CONNECTED:
 			conn.set_no_delay(true)
 			connection_established = true
-			conn.put_data(message.to_utf8_buffer())
-		print("waiting")
 		wait_time *= 1.1
 
 func sign_in():
 	var username = $"Username line edit".text
 	var password :String = $"password line edit".text
-	conn.put_data((username + seperation_str + password + seperation_str + "sign_in").to_utf8_buffer())
+	conn.put_data((username + seperation_str + password + seperation_str + "login").to_utf8_buffer())
 
 func sign_up():
 	var username = $"Username line edit".text
 	var password :String = $"password line edit".text
-	conn.put_utf8_string(username + seperation_str + password + seperation_str + "sign_up")
+	conn.put_data((username + seperation_str + password + seperation_str + "sign_up").to_utf8_buffer())
 
 func _on_button_2_pressed() -> void:
 	sign_up()
