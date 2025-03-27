@@ -1,7 +1,6 @@
 import psycopg2 as pg_interface, sqlalchemy
 
 POSTGRES_DATABASE_NAME = "rts_database"
-
 HOST = "127.0.0.1"
 PORT = 5432
 USERNAME = "postgres"
@@ -11,13 +10,17 @@ DSN_STRING = f"user={USERNAME} password={PASSWORD} " \
              f"dbname={DB} host={HOST} port={PORT}"
 
 
-def run_query(q, has_results=False, commit=True):
+def run_query(q,params=(), has_results=False, commit=True):
     with pg_interface.connect(dsn=DSN_STRING) as conn:
         with conn.cursor() as cursor:
-            cursor.execute(q)
+            if params == ():
+                cursor.execute(q)
+            else:
+                cursor.execute(q,vars=params)
             if has_results == True:
                 try:
-                    return cursor.fetchall()
+                    results = cursor.fetchall()
+                    return results
                 except psycopg2.NoResults:
                     return []
         if commit:
@@ -28,27 +31,36 @@ def run_query(q, has_results=False, commit=True):
 def init_postgres_tables():
     query = '''
     CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY,
+        id TEXT PRIMARY KEY,
+        id_salt INTEGER NOT NULL,
         name TEXT NOT NULL,
-        hashed_password TEXT NOT NULL
+        hashed_password TEXT NOT NULL,
+        password_salt INTEGER NOT NULL
     )'''
     run_query(query)
 
 
-def get_entries(table,column,search_keyword):
+def get_entries(table,columns,search_keywords,boolean="AND"):
     #create the query
-    query = f"SELECT {column} FROM {table} WHERE {column} = ?"
-    run_query(query,has_results=True)
+    query = f"SELECT * FROM {table} WHERE {columns[0]} = \'{search_keywords[0]}\'"
+
+    if len(columns) != 1:
+        for i in range(len(columns)):
+            if i == 0: 
+                continue
+            query += " " + boolean + f" {columns[i]} = {search_keywords[i]}"
+    return run_query(query,has_results=True)
 
 
-def get_all_records(table):
+def get_all_entries(table):
     query = f"select * from {table}"
     return run_query(query,has_results=True)
 
 def add_entry(table,column_values : tuple):
-    query = '''INSERT INTO table_name
-    VALUES 
-    '''
-    values = ""
-    for i in column_values:
-        values.
+    query = f"INSERT INTO {table} \n VALUES ("
+    for i in range(len(column_values)):
+        query += "%s"
+        if i != (len(column_values)-1):
+            query += ", "
+    query += ")"
+    run_query(q=query,params=column_values)

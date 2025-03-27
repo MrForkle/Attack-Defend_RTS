@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2grgp6mnujvx"]
+
+[sub_resource type="Environment" id="Environment_wlwx0"]
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 19.8053)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.869917, 0.493198, 0, -0.493198, 0.869917, 0, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_wlwx0")
+
+[node name="FogVolume" type="FogVolume" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.949615, 0, 0.227051)
+size = Vector3(7.99115, 2, 10.1709)
