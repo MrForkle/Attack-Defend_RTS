@@ -1,5 +1,21 @@
-import sqlite3,socket,time,asyncio,communication_layer
-import random,hashlib
+import sqlite3
+import socket
+import time
+import multiprocessing
+from multiprocessing import reduction
+from multiprocessing import Pipe
+from multiprocessing import Process
+from multiprocessing import connection
+import dill
+import random
+import hashlib
+import select
+
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.backends import default_backend
+
+import communication_layer
 
 # Define the server's IP address and port
 HOST = '127.0.0.1'  # Localhost
@@ -7,11 +23,54 @@ PORT = 4999        # Port to listen on
 USERS_DB = "../Server Data/users.db"
 
 def main():
+    create_threadpool()
     communication_layer.init_postgres_tables()
     srvr_mainloop()
 
-async def client_handler(client):
-    pass
+def create_threadpool(size=5):
+    global threadpool
+    threadpool = []
+    for i in range(size):
+        child_pipe, parent_pipe = Pipe(duplex=True)
+        new_thread = Process(target=client_handler,args=(child_pipe,))
+        new_thread.start()
+        threadpool.append((new_thread,parent_pipe))
+
+def client_handler(shared_memory_name):
+
+
+
+    while True:    
+        connections = []
+
+        if connections == []:
+            time.sleep(0.01)
+            continue
+
+        readable,writable,errors = select.select(connections,[],connections,0.01)
+
+        if readable == [] and errors == []:
+            continue
+
+        for conn in readable:
+            with conn:
+                while True:
+                # Receive data from the client
+                    data = conn.recv(1024)
+                    if not data:
+                        break
+                    data = data.decode()
+                    data = data.split("\n")
+                    if data[0] == "login":
+                        print("login")
+                        data = login(data[1],data[2])
+                        print(data)
+                        data = str(data)
+                        data = data.encode("utf-8")
+                        conn.send(data)
+                    elif data[0] == "sign_up":
+                        print("Sign up")
+                        print(add_user(data[1],data[2]))
 
 def login(username,password):
     user = communication_layer.get_entries("users",("name",),(username,))
@@ -52,37 +111,28 @@ def add_user(username,password):
     return 0
 
 def srvr_mainloop():
-    while True:
-        # Create a socket object
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
-            # Bind the socket to the address and port
-            server_socket.bind((HOST, PORT))
-            
+
+
+
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+        # Bind the socket to the address and port
+        server_socket.bind((HOST, PORT))
+        thread_to_use = 0
+        while True: 
             # Listen for incoming connections
             server_socket.listen()
             print(f"Server listening on {HOST}:{PORT}")
-            
+                    
             # Accept a connection
             conn, addr = server_socket.accept()
-            with conn:
-                print(f"Connected by {addr}")
-                while True:
-                    # Receive data from the client
-                    data = conn.recv(1024)
-                    if not data:
-                        break
-                    data = data.decode()
-                    data = data.split("\n")
-                    if data[0] == "login":
-                        print("login")
-                        data = login(data[1],data[2])
-                        print(data)
-                        data = str(data)
-                        data = data.encode("utf-8")
-                        conn.send(data)
-                    elif data[0] == "sign_up":
-                        print("Sign up")
-                        print(add_user(data[1],data[2]))
-                    
+            parent_pipe = threadpool[thread_to_use][1]
+            thread = threadpool[thread_to_use][0]
+
+            multiprocessing.reduction.send_handle(parent_pipe, conn.fileno(), thread.pid)
+            if thread_to_use >= (len(threadpool)-1):
+                thread_to_use = 0
+            else:
+                thread_to_use += 1 
+         
 if __name__ == "__main__":
-    print(main())
+    main()

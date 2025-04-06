@@ -36,7 +36,7 @@ def init_postgres_tables():
         name TEXT NOT NULL,
         hashed_password TEXT NOT NULL,
         password_salt INTEGER NOT NULL
-    )'''
+    );'''
     run_query(query)
 
 

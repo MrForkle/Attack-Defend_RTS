@@ -11,5 +11,14 @@ services:
     environment:
       - POSTGRES_DB=rts_database
       - POSTGRES_PASSWORD=password
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
     volumes:
       - db-data:/var/lib/postgresql/data
