@@ -6,10 +6,10 @@ from multiprocessing import reduction
 from multiprocessing import Pipe
 from multiprocessing import Process
 from multiprocessing import connection
-import dill
 import random
 import hashlib
 import select
+import os
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
@@ -18,30 +18,39 @@ from cryptography.hazmat.backends import default_backend
 import communication_layer
 
 # Define the server's IP address and port
-HOST = '127.0.0.1'  # Localhost
+HOST = '0.0.0.0'  # Localhost
 PORT = 4999        # Port to listen on
-USERS_DB = "../Server Data/users.db"
 
 def main():
     create_threadpool()
     communication_layer.init_postgres_tables()
     srvr_mainloop()
 
-def create_threadpool(size=5):
+def create_threadpool(size=5): #Init Threads for client handling
     global threadpool
     threadpool = []
+
     for i in range(size):
-        child_pipe, parent_pipe = Pipe(duplex=True)
-        new_thread = Process(target=client_handler,args=(child_pipe,))
+        child_pipe, parent_pipe = Pipe(duplex=True) #Create a pipe for passing the client connection
+        new_thread = Process(target=client_handler,args=(child_pipe,)) #Prepare the New Thread
         new_thread.start()
-        threadpool.append((new_thread,parent_pipe))
+        threadpool.append((new_thread,parent_pipe)) #append the thread object and pipe
 
-def client_handler(shared_memory_name):
+def client_handler(local_pipe):
 
+    print("hello world")
 
+    communication_layer.init_db_conn()
 
-    while True:    
-        connections = []
+    connections = []
+
+    while True:
+        if local_pipe.poll():
+            pipe_output = multiprocessing.reduction.recv_handle(local_pipe)
+            new_socket = socket.fromfd(pipe_output, socket.AF_INET, socket.SOCK_STREAM)
+            print("New socket: " + str(new_socket))
+            connections.append(new_socket)
+            os.close(pipe_output)
 
         if connections == []:
             time.sleep(0.01)
@@ -53,24 +62,30 @@ def client_handler(shared_memory_name):
             continue
 
         for conn in readable:
-            with conn:
-                while True:
-                # Receive data from the client
-                    data = conn.recv(1024)
-                    if not data:
-                        break
-                    data = data.decode()
-                    data = data.split("\n")
-                    if data[0] == "login":
-                        print("login")
-                        data = login(data[1],data[2])
-                        print(data)
-                        data = str(data)
-                        data = data.encode("utf-8")
-                        conn.send(data)
-                    elif data[0] == "sign_up":
-                        print("Sign up")
-                        print(add_user(data[1],data[2]))
+            # Receive data from the client
+            data = conn.recv(1024)
+            if data == b'':
+                index = connections.index(conn)
+                conn.close()
+                connections.pop(index)
+            print(data)
+            data = data.decode("utf-8")
+            print(data)
+            data = data.split("\n")
+            print(data)
+            if data[0] == "login":
+                print("login")
+                data = login(data[1],data[2])
+                print(data)
+                data = str(data)
+                data = data.encode("utf-8")
+                conn.send(data)
+            elif data[0] == "sign_up":
+                print("Sign up")
+                print(add_user(data[1],data[2]))
+        
+        for i in errors:
+            i.close()
 
 def login(username,password):
     user = communication_layer.get_entries("users",("name",),(username,))
@@ -111,9 +126,6 @@ def add_user(username,password):
     return 0
 
 def srvr_mainloop():
-
-
-
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
         # Bind the socket to the address and port
         server_socket.bind((HOST, PORT))

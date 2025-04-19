@@ -22,18 +22,35 @@ func connect_to_server():
 			connection_established = true
 				
 		wait_time *= 1.1
+	get_node("Loading Symbol").hide()
+	get_node("Label").show()
 
 func sign_in():
 	var username = $"Username line edit".text
 	var password :String = $"password line edit".text
 	conn.put_data(("login" + seperation_str + username + seperation_str + password).to_utf8_buffer())
-	var data = conn.get_data(1)
+	var data = []
+	while data == []:
+		if conn.get_available_bytes() != 0:
+			data = conn.get_data(1)
+		else:
+			await get_tree().create_timer(0.01).timeout
 	print(data[1].get_string_from_ascii())
+	if data[1].get_string_from_ascii() == '0':
+		get_tree().get_root().add_child(load("res://Menus/main_menu.tscn").instantiate())
 
 func sign_up():
 	var username = $"Username line edit".text
 	var password :String = $"password line edit".text
 	conn.put_data(("sign_up" + seperation_str + username + seperation_str + password).to_utf8_buffer())
+	var data = []
+	while data == []:
+		if conn.get_available_bytes() != 0:
+			data = conn.get_data(1)
+		else:
+			await get_tree().create_timer(0.01).timeout
+	if data[1].get_string_from_ascii() == '0':
+		get_tree().get_root().add_child(load("res://Menus/main_menu.tscn").instantiate())
 
 func _on_button_2_pressed() -> void:
 	sign_up()

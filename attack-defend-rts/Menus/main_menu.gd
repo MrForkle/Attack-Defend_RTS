@@ -3,6 +3,8 @@ extends Control
 const MAX_CLIENTS = 4095
 const PORT = 5000
 
+var map = preload("res://Map/map.tscn")
+
 @rpc("any_peer","reliable","call_remote")
 func check_connection():
 	return 0
@@ -36,3 +38,24 @@ func _ready() -> void:
 		if wait_time != 0.01:
 			OS.alert("Connection successful.",
 					"Connection")
+
+func _on_level_select_button_pressed() -> void:
+	get_node("Main menu").hide()
+	get_node("Level Select").show()
+
+func _on_join_game_button_pressed() -> void:
+	get_node("Join Game").show()
+	get_node("Main menu").hide()
+
+func _on_options_button_pressed() -> void:
+	get_node("Options").show()
+	get_node("Main menu").hide()
+
+func _on_close_pressed() -> void:
+	get_node("Options").hide()
+	get_node("Main menu").show()
+
+func _on_level_one_button_pressed() -> void:
+	var map_instantiated = map.instantiate()
+	get_tree().get_root().get_node("Main/ui").add_child(map_instantiated)
+	hide()
