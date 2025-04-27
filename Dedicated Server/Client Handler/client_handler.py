@@ -21,6 +21,8 @@ import communication_layer
 HOST = '0.0.0.0'  # Localhost
 PORT = 4999        # Port to listen on
 
+
+
 def main():
     create_threadpool()
     communication_layer.init_postgres_tables()
