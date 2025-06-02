@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cjo74v0bpxc10"]
 
-[ext_resource type="Script" uid="uid://css2m32pjqfrs" path="res://sign_in_page.gd" id="1_byhym"]
+[ext_resource type="Script" uid="uid://css2m32pjqfrs" path="res://Menus/sign_in_page.gd" id="1_byhym"]
 [ext_resource type="PackedScene" uid="uid://d3x7hn0jp37vt" path="res://loading_symbol.tscn" id="2_60svw"]
 
 [node name="sign in page" type="Control"]
@@ -44,14 +44,14 @@ offset_right = 226.0
 offset_bottom = 188.0
 text = "Sign up"
 
-[node name="Loading Symbol" parent="." instance=ExtResource("2_60svw")]
+[node name="loading_symbol" parent="." instance=ExtResource("2_60svw")]
 layout_mode = 0
 offset_left = 93.0
 offset_top = 30.0
 offset_right = 261.0
 offset_bottom = 53.0
 
-[node name="Label" type="Label" parent="."]
+[node name="connected_symbol" type="Label" parent="."]
 visible = false
 layout_mode = 0
 offset_left = 133.0
