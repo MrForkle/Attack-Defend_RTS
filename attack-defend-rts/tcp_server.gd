@@ -1,6 +1,5 @@
 extends Node
 
-# Define the server's IP address and port
 const host = "127.0.0.1"
 const port = 4999
 const seperation_str = '\n'

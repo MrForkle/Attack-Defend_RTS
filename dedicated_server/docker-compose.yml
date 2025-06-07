@@ -25,14 +25,15 @@ services:
     ports:
       - "4999:4999"
 
-  chat_server:
+  chat_server_main:
     image: chat_server
-    container_name: chat_server_main
     environment:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - db
       - init
+    ports:
+      - "5001:5001"
 
   pgadmin:
     image: dpage/pgadmin4

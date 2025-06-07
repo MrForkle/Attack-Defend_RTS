@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://q4n34oq201my"]
+[gd_scene load_steps=4 format=3 uid="uid://q4n34oq201my"]
 
 [ext_resource type="Script" uid="uid://d00w2qi6wqsnq" path="res://ui.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://craep0xg2ukjj" path="res://tcp_server.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://ckrnqv566agog" path="res://udp_server.gd" id="3_h2yge"]
 
 [node name="Main" type="Node"]
 
@@ -10,3 +11,6 @@ script = ExtResource("1_0xm2m")
 
 [node name="tcp_server" type="Node" parent="."]
 script = ExtResource("1_ig7tw")
+
+[node name="udp_server" type="Node" parent="."]
+script = ExtResource("3_h2yge")
