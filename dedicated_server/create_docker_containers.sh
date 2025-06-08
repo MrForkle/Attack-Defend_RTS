@@ -1,7 +1,7 @@
 echo 'Building Containers'
 
 echo 'Building Base'
-docker build -t base .
+docker build --no-cache -t base .
 
 echo 'Building Init Container'
 docker build --no-cache -t init init
