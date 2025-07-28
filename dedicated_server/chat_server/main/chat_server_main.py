@@ -10,8 +10,9 @@ conn = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 def connect():
     pass
 
-def create_chat():
-    pass
+def create_chat(name):
+    print(f"Created chat in container {name}",flush=True)
+    client.containers.run("chat_server_child",hostname=name,detach=True,network="dedicated_server_default")
 
 commands = {
     "connect" : connect
@@ -20,17 +21,17 @@ commands = {
 def mainloop():
     while True:
         #conn.sendto(''.encode(), (args.ip, args.server_port))
-        data, server_address = client_socket.recvfrom(1024)
-        print(f'Received {data.decode("utf-8")}')
+        data, server_address = conn.recvfrom(1024)
+        print(f'Received {data.decode("utf-8")}',flush=True)
 
 def init():
-    create_chat("main")
+    create_chat("global")
+    mainloop()
 
 def main():
+    global client
     client = docker.client.from_env()
     init()
-    print(client.containers.get('chat_server'),flush=True)
-    client.containers.run("chat_server_child",detach=True,network="dedicated_server_default")
 
 if __name__ == "__main__":
     main()

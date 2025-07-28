@@ -6,6 +6,7 @@ from multiprocessing import Process
 import random
 import hashlib
 import select
+import os
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
@@ -20,7 +21,9 @@ HOST = '0.0.0.0'  # Localhost
 PORT = 4999        # Port to listen on
 
 
-def sign_in(data):
+def sign_in(conn,data):
+    if len(data) != 2:
+        return
     print("sign in",flush=True)
 
     username = data[0]
@@ -29,7 +32,7 @@ def sign_in(data):
     user = communication_layer.get_entries("users",("name",),(username,))
 
     if user == []:
-        return 2
+        return
 
     entered_hashed_password = hashlib.sha512((password + str(user[0][4])).encode("utf-8"))
     entered_hashed_password = entered_hashed_password.hexdigest()
@@ -38,20 +41,23 @@ def sign_in(data):
     for i in range(len(entered_hashed_password)):
         if entered_hashed_password[i] != user[0][3][i]:
             comparison_failed = True
-    if comparison_failed == True:
-        return 1
-    elif comparison_failed == False:
-        return 0
+    if comparison_failed != True:
+        ip = conn.getpeername()
+        encoded = communication_layer.create_jwt_token(payload=(("ip",ip),("username",username)))
+        conn.sendall(encoded.encode('utf-8'))
 
 
-def sign_up(data):
+
+def sign_up(conn,data):
+    if len(data) != 2:
+        return
     print("sign up",flush=True)
 
     username = data[0]
     password = data[1]
 
     if communication_layer.get_entries("users",("name",),(username,)) != []:
-        return 1
+        return
     
     unique = [""]
     while unique != []:
@@ -65,23 +71,18 @@ def sign_up(data):
     hashed_password = hashed_password.hexdigest()
     
     communication_layer.add_entry("users",(user_id,salt,username,hashed_password,password_salt))
-    return 0
 
 commands = {
-    'sign_in' : {
-        'function' : sign_in ,
-        'param_count' : 2
-        },
-    'sign_up' : {
-        'function' : sign_up ,
-        'param_count' : 2
-        }
+    'sign_in' : sign_in ,
+    'sign_up' : sign_up
 }
 
 def main():
+    print("hello",flush=True)  
     create_threadpool()
-    communication_layer.init_db_conn()
-    communication_layer.init_postgres_tables()
+    print("init",flush=True)
+    communication_layer.init()
+    print("starting loop",flush=True)
     srvr_mainloop()
 
 def create_threadpool(size=5): #Init Threads for client handling
@@ -95,10 +96,7 @@ def create_threadpool(size=5): #Init Threads for client handling
         threadpool.append((new_thread,parent_pipe)) #append the thread object and pipe
 
 def client_handler(local_pipe):
-
-    print("hello world",flush=True)
-
-    communication_layer.init_db_conn()
+    communication_layer.init()
 
     connections = []
 
@@ -136,20 +134,20 @@ def client_handler(local_pipe):
             command = data[0]
             data.pop(0)
 
-            if command in commands and commands[command]['param_count'] == len(data):
-                return_code = commands[command]['function'](data)
-                return_code = str(return_code)
-                return_code = return_code.encode("utf-8")
-                conn.send(return_code)
+            if command in commands:
+                commands[command](conn,data)
 
         for i in errors:
             i.close()
 
 def srvr_mainloop():
+    print("hello2",flush=True)
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+        print(f"Client Handler Server ready to accept connections on port:{PORT} at address:{HOST}",flush=True)
         # Bind the socket to the address and port
         server_socket.bind((HOST, PORT))
         thread_to_use = 0
+        
         while True: 
             # Listen for incoming connections
             server_socket.listen()
@@ -159,7 +157,6 @@ def srvr_mainloop():
             conn, addr = server_socket.accept()
             parent_pipe = threadpool[thread_to_use][1]
             thread = threadpool[thread_to_use][0]
-
             multiprocessing.reduction.send_handle(parent_pipe, conn.fileno(), thread.pid)
             if thread_to_use >= (len(threadpool)-1):
                 thread_to_use = 0
