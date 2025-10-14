@@ -43,7 +43,7 @@ def sign_in(conn,data):
             comparison_failed = True
     if comparison_failed != True:
         ip = conn.getpeername()
-        encoded = communication_layer.create_jwt_token(payload=(("ip",ip),("username",username)))
+        encoded = communication_layer.create_jwt_token(payload={"ip":ip,"username":username})
         conn.sendall(encoded.encode('utf-8'))
 
 

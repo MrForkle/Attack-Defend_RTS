@@ -7,7 +7,10 @@ var conn = StreamPeerTCP.new()
 var incomming_data = []
 
 func _process(delta: float) -> void:
-	var data = conn.get_data(1)
+	var bytes_available = conn.get_available_bytes()
+	if bytes_available <= 0:
+		return
+	var data = conn.get_data(bytes_available)
 	print(data)
 	incomming_data.append(data)
 
