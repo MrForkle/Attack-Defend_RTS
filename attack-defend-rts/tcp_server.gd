@@ -4,15 +4,14 @@ const host = "127.0.0.1"
 const port = 4999
 const seperation_str = '\n'
 var conn = StreamPeerTCP.new()
-var incomming_data = []
+var incoming_data = []
 
 func _process(delta: float) -> void:
 	var bytes_available = conn.get_available_bytes()
 	if bytes_available <= 0:
 		return
 	var data = conn.get_data(bytes_available)
-	print(data)
-	incomming_data.append(data)
+	incoming_data.append(data)
 
 func _ready() -> void:
 	conn.connect_to_host(host,port)
@@ -33,12 +32,14 @@ func sign_in(username,password):
 	conn.put_data(("sign_in" + seperation_str + username + seperation_str + password).to_utf8_buffer())
 	var data = []
 	while data == []:
-		if conn.get_available_bytes() != 0:
-			data = conn.get_data(1)
+		print("waiting for data")
+		if incoming_data != []:
+			data = incoming_data[0]
+			incoming_data.pop_back()
 		else:
 			await get_tree().create_timer(0.01).timeout
 	print(data[1].get_string_from_ascii())
-	if data[1].get_string_from_ascii() == '0':
+	if data[0] == 0:
 		get_tree().get_root().add_child(load("res://Menus/main_menu.tscn").instantiate())
 
 func sign_up(username,password):
