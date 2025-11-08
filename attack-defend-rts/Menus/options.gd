@@ -48,3 +48,12 @@ func set_settings():
 
 func _on_apply_pressed() -> void:
 	set_settings()
+
+func _on_window_type_button_item_selected(index: int) -> void:
+		options["window"] = index*3
+
+func _on_borderless_button_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		options["borderless"] = true
+	else:
+		options["borderless"] = false

@@ -1,0 +1,52 @@
+version: '3.8'
+
+volumes:
+  db-data:
+  jwt_keys:
+
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=rts_database
+      - POSTGRES_PASSWORD=password
+
+  init:
+    image: init
+    depends_on:
+      - db
+    volumes:
+      - jwt_keys:/dedicated_server/jwt_keys
+
+  client_handler:
+    image: client_handler
+    depends_on:
+      - db
+      - init
+    ports:
+      - "4999:4999"
+    volumes:
+      - jwt_keys:/dedicated_server/jwt_keys
+
+  chat_server_main:
+    image: chat_server_main
+    depends_on:
+      - db
+      - init
+    ports:
+      - "5001:5001"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - jwt_keys:/dedicated_server/jwt_keys
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'admin@pgadmin.com'
+      PGADMIN_DEFAULT_PASSWORD: 'password'
+    ports:
+      - 5050:80
+    depends_on:
+      - db
+    volumes:
+      - db-data:/var/lib/postgresql/data

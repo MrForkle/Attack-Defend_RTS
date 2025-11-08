@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="Attack/Defend RTS"
-run/main_scene="res://Menus/main_menu.tscn"
-config/features=PackedStringArray("4.4", "Forward Plus")
+run/main_scene="uid://q4n34oq201my"
+config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [editor]
@@ -89,3 +89,4 @@ d={
 [rendering]
 
 textures/vram_compression/import_etc2_astc=true
+environment/volumetric_fog/volume_size=256

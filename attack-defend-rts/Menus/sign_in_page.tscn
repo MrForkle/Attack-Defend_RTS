@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cjo74v0bpxc10"]
+[gd_scene load_steps=3 format=3 uid="uid://cjo74v0bpxc10"]
 
-[ext_resource type="Script" uid="uid://css2m32pjqfrs" path="res://sign_in_page.gd" id="1_byhym"]
+[ext_resource type="Script" uid="uid://css2m32pjqfrs" path="res://Menus/sign_in_page.gd" id="1_byhym"]
+[ext_resource type="PackedScene" uid="uid://d3x7hn0jp37vt" path="res://loading_symbol.tscn" id="2_60svw"]
 
 [node name="sign in page" type="Control"]
 layout_mode = 3
@@ -11,37 +12,44 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_byhym")
 
-[node name="Username line edit" type="LineEdit" parent="."]
-layout_mode = 0
-offset_left = 75.0
-offset_top = 68.0
-offset_right = 292.0
-offset_bottom = 99.0
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Username line edit" type="LineEdit" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 placeholder_text = "Username"
 
-[node name="password line edit" type="LineEdit" parent="."]
-layout_mode = 0
-offset_left = 75.0
-offset_top = 104.0
-offset_right = 294.0
-offset_bottom = 135.0
+[node name="password line edit" type="LineEdit" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 placeholder_text = "Password"
+secret = true
 
-[node name="Button" type="Button" parent="."]
-layout_mode = 0
-offset_left = 87.0
-offset_top = 156.0
-offset_right = 137.0
-offset_bottom = 187.0
+[node name="Button" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "Login"
 
-[node name="Button2" type="Button" parent="."]
-layout_mode = 0
-offset_left = 161.0
-offset_top = 157.0
-offset_right = 226.0
-offset_bottom = 188.0
+[node name="Button2" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "Sign up"
 
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
+[node name="loading_symbol" parent="CenterContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_60svw")]
+layout_mode = 2
+
+[node name="connected_symbol" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Connected"
+
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/Button2" to="." method="_on_button_2_pressed"]
