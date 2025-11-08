@@ -4,8 +4,7 @@ func _ready() -> void:
 	add_child(load("res://Menus/sign_in_page.tscn").instantiate())
 
 func swap_menu(scene):
-	print("wassup")
-	print(get_children())
-	for i in get_children():
+	var children = get_children()
+	add_child(load(scene).instantiate())
+	for i in children:
 		i.queue_free()
-	add_child(scene.instantiate())

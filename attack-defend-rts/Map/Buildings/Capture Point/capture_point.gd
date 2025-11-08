@@ -1,7 +1,7 @@
 extends Area3D
 
-var red_material
-var blue_material
+var red_material = null
+var blue_material = null
 var red_count = 0
 var blue_count = 0
 

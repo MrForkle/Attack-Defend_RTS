@@ -7,6 +7,7 @@ import random
 import hashlib
 import select
 import os
+import psycopg2
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
@@ -22,18 +23,19 @@ PORT = 4999        # Port to listen on
 
 
 def sign_in(conn,data):
-    if len(data) != 2:
+    if len(data) != 3:
         return
     print("sign in",flush=True)
 
-    username = data[0]
-    password = data[1]
+    request_id = data[0]
+    username = data[1]
+    password = data[2]
 
     user = communication_layer.get_entries("users",("name",),(username,))
 
     if user == []:
-        return
-
+        conn.sendall((request_id + "\n1").encode('utf-8'))
+    print(user)
     entered_hashed_password = hashlib.sha512((password + str(user[0][4])).encode("utf-8"))
     entered_hashed_password = entered_hashed_password.hexdigest()
 
@@ -43,18 +45,19 @@ def sign_in(conn,data):
             comparison_failed = True
     if comparison_failed != True:
         ip = conn.getpeername()
-        encoded = communication_layer.create_jwt_token(payload={"ip":ip,"username":username})
+        encoded = request_id + "\n0\n" + communication_layer.create_jwt_token(payload={"ip":ip,"username":username})
         conn.sendall(encoded.encode('utf-8'))
 
 
 
 def sign_up(conn,data):
-    if len(data) != 2:
+    if len(data) != 3:
         return
     print("sign up",flush=True)
 
-    username = data[0]
-    password = data[1]
+    request_id = data[0]
+    username = data[1]
+    password = data[2]
 
     if communication_layer.get_entries("users",("name",),(username,)) != []:
         return
@@ -69,8 +72,19 @@ def sign_up(conn,data):
     password_salt = random.randint(0,100000)
     hashed_password = hashlib.sha512((password+str(password_salt)).encode("utf-8"))
     hashed_password = hashed_password.hexdigest()
-    
-    communication_layer.add_entry("users",(user_id,salt,username,hashed_password,password_salt))
+    try:
+        communication_layer.add_entry("users",(user_id,salt,username,hashed_password,password_salt))
+    except psycopg2.errors.UniqueViolation:
+        print("Tried to add duplicate username to DB",flush=True)
+        conn.sendall((request_id + "\n1").encode('utf-8'))
+    except:
+        print("Failed to add user, not duplicate",flush=True)
+        conn.sendall((request_id + "\n2").encode('utf-8'))
+    else:
+        print("Succesfully added new user",flush=True)
+        sign_in(conn,data)
+
+
 
 commands = {
     'sign_in' : sign_in ,
@@ -120,19 +134,20 @@ def client_handler(local_pipe):
         for conn in readable:
             # Receive data from the client
             data = conn.recv(1024)
-
+            
             if data == b'':
                 index = connections.index(conn)
                 conn.close()
                 connections.pop(index)
+                continue
 
             data = data.decode("utf-8")
             data = data.split("\n")
 
-            print(data,flush=True)
+            print("Received data:" + str(data),flush=True)
 
-            command = data[0]
-            data.pop(0)
+            command = data[1]
+            data.pop(1)
 
             if command in commands:
                 commands[command](conn,data)

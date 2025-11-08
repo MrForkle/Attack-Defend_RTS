@@ -11,6 +11,7 @@ func check_connection():
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	return
 	await get_tree().create_timer(0.5).timeout
 	var cmdline_args = OS.get_cmdline_args()
 	if "--server_mode" in cmdline_args:
