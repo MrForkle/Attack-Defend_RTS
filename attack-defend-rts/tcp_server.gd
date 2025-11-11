@@ -4,6 +4,8 @@ const host = "127.0.0.1"
 const port = 4999
 const seperation_str = '\n'
 const max_request_id = 1000
+const loading_symbol = "ui/sign_in_page/CenterContainer/loading_symbol"
+const sign_in_page = "ui/sign_in_page/VBoxContainer"
 var validation_jwt = ""
 var conn = StreamPeerTCP.new()
 var setup_complete = false
@@ -24,7 +26,6 @@ func setup_connection():
 		await get_tree().create_timer(0.1).timeout
 		conn.connect_to_host(host,port)
 		conn.poll()
-		print(conn.get_status())
 		if conn.get_status() == StreamPeerTCP.Status.STATUS_CONNECTED:
 			conn.set_no_delay(true)
 			connection_established = true
@@ -33,15 +34,16 @@ func setup_connection():
 	setup_complete = true
 
 func _process(_delta: float) -> void:
+	return
 	if setup_complete == false:
 		return
 	if conn.get_status() != StreamPeerTCP.Status.STATUS_CONNECTED:
 		setup_complete = false
-		get_parent().get_node("ui/sign in page/loading_symbol").show()
-		get_parent().get_node("ui/sign in page/connected_symbol").hide()
+		get_parent().get_node(loading_symbol).show()
+		get_parent().get_node(sign_in_page).hide()
 		await setup_connection()
-		get_parent().get_node("ui/sign in page/loading_symbol").hide()
-		get_parent().get_node("ui/sign in page/connected_symbol").show()
+		get_parent().get_node(loading_symbol).hide()
+		get_parent().get_node(sign_in_page).show()
 	var bytes_available = conn.get_available_bytes()
 	if bytes_available <= 0:
 		return
@@ -51,8 +53,8 @@ func _process(_delta: float) -> void:
 
 func _ready() -> void:
 	await setup_connection()
-	get_parent().get_node("ui/sign in page/loading_symbol").hide()
-	get_parent().get_node("ui/sign in page/connected_symbol").show()
+	get_parent().get_node(loading_symbol).hide()
+	get_parent().get_node(sign_in_page).show()
 
 func new_request_id():
 	while next_request_id in open_request_ids:
@@ -84,6 +86,10 @@ func sign_in(username,password):
 	if decoded[1] == '0':
 		validation_jwt = decoded[2]
 		get_parent().get_node("ui").swap_menu("res://Menus/main_menu.tscn")
+	elif decoded[1] == "1": #user doesn't exist
+		pass
+	elif decoded[1] == "2": #user exists but password is wrong
+		pass
 
 func sign_up(username,password):
 	var data = await open_request("sign_up" + seperation_str + username + seperation_str + password)

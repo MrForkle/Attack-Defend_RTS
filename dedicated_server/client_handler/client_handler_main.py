@@ -32,9 +32,10 @@ def sign_in(conn,data):
     password = data[2]
 
     user = communication_layer.get_entries("users",("name",),(username,))
-
+    print("user:" + str(user),flush=True)
     if user == []:
         conn.sendall((request_id + "\n1").encode('utf-8'))
+        return
     print(user)
     entered_hashed_password = hashlib.sha512((password + str(user[0][4])).encode("utf-8"))
     entered_hashed_password = entered_hashed_password.hexdigest()
@@ -43,12 +44,13 @@ def sign_in(conn,data):
     for i in range(len(entered_hashed_password)):
         if entered_hashed_password[i] != user[0][3][i]:
             comparison_failed = True
-    if comparison_failed != True:
+    if comparison_failed == False:
         ip = conn.getpeername()
         encoded = request_id + "\n0\n" + communication_layer.create_jwt_token(payload={"ip":ip,"username":username})
         conn.sendall(encoded.encode('utf-8'))
-
-
+    if comparison_failed == True:
+        encoded = request_id + "\n2"
+        conn.sendall(encoded.encode('utf-8'))
 
 def sign_up(conn,data):
     if len(data) != 3:

@@ -11,6 +11,7 @@ func _ready():
 	udp.connect_to_host(host,port)
 
 func _process(_delta):
+	return
 	if udp.get_available_packet_count() > 0:
 		incomming_data.append(udp.get_packet().get_string_from_utf8())
 
